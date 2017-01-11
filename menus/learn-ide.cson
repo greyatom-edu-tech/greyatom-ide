@@ -1,0 +1,51 @@
+'context-menu':
+  'atom-text-editor': [
+    {
+      'label': 'Toggle Learn IDE Terminal'
+      'command': 'learn-ide:toggle-terminal'
+    }
+  ]
+  '.learn-terminal': [
+    {
+      'label': 'Copy'
+      'command': 'learn-ide:copy'
+    }
+    {
+      'label': 'Paste'
+      'command': 'learn-ide:paste'
+    }
+    {
+      'label': 'Hide Learn IDE Terminal'
+      'command': 'learn-ide:toggle-terminal'
+    }
+  ]
+'menu': [
+  {
+    'label': 'Packages'
+    'submenu': [
+      'label': 'Learn IDE'
+      'submenu': [
+        {
+          'label': 'Focus Terminal'
+          'command': 'learn-ide:toggle-focus'
+        }
+        {
+          'label': 'Toggle Terminal'
+          'command': 'learn-ide:toggle-terminal'
+        }
+        {
+          'label': 'Toggle Debugger'
+          'command': 'learn-ide:toggle:debugger'
+        }
+        {
+          'label': 'Reconnect'
+          'command': 'learn-ide:reset'
+        }
+        {
+          'label': 'Log In/Out'
+          'command': 'learn-ide:log-in-out'
+        }
+      ]
+    ]
+  }
+]
