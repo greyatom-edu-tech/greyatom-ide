@@ -15,8 +15,8 @@ confirmOauthToken = (token) ->
   return new Promise (resolve, reject) ->
     try
       authRequest = http.get
-        host: '127.0.0.1'
-        port : 7777
+        host: '35.154.96.42'
+        port : 3000
         path: '/api/v1/users/me?ile_version=' + atom.appVersion
         # headers:
         #   'Authorization': 'Bearer ' + token
@@ -130,7 +130,7 @@ window.learnSignIn = () ->
         githubLogin().then(resolve)
 
     #if not win.loadURL('https://learn.co/ide/sign_in?ide_onboard=true')
-    if not win.loadURL('http://localhost/auth/')
+    if not win.loadURL('http://35.154.96.42:3000/signin/')
       win.destroy()
       #githubLogin.then(resolve)
 
