@@ -10,7 +10,7 @@
     "start": "./node_modules/gulp/bin/gulp.js"
   },
   "keywords": [],
-  "repository": "https://github.com/greyatom-edu-tech/",
+  "repository": "https://github.com/greyatom-edu-tech/greyatom-ide/",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
