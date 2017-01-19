@@ -1,6 +1,6 @@
 {
   "name": "Greyatom-ide",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "atomVersion": "1.12.2",
   "treeVersion": "1.0.17",
   "main": "./lib/learn-ide",
