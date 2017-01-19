@@ -1,5 +1,5 @@
 {
-  "name": "Greyatom-ide",
+  "name": "greyatom-ide",
   "version": "0.2.1",
   "atomVersion": "1.12.2",
   "treeVersion": "1.0.17",
@@ -10,7 +10,7 @@
     "start": "./node_modules/gulp/bin/gulp.js"
   },
   "keywords": [],
-  "repository": "https://github.com/PradeepJaiswar/greyatom-ide",
+  "repository": "https://github.com/greyatom-edu-tech/",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
