@@ -44,7 +44,7 @@ module.exports = class Terminal extends EventEmitter
 
   url: ->
     protocol = if @port == 443 then 'wss' else 'ws'
-    "#{protocol}://#{@host}:#{@port}/#{@path}"
+    "#{protocol}://#{@host}:#{@port}/#{@path}/#{@token}"
 
   reset: ->
     console.log('term:reset')
