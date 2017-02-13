@@ -16,7 +16,7 @@ confirmOauthToken = (token) ->
     try
       authRequest = http.get
         host: '35.154.96.42'
-        port : 3000
+        port : 7000
         path: '/api/v1/users/me?ile_version=' + atom.appVersion
         # headers:
         #   'Authorization': 'Bearer ' + token
