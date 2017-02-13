@@ -19,16 +19,18 @@ class Notifier extends EventEmitter
       @socket = io.connect('http://35.154.96.42:9000', reconnect: true)
 
       @socket.on 'connect', =>
-        @socket.emit 'room', "user_id"
+        @socket.emit 'room', @authToken
         console.log 'socket.io is connected, listening for notification'
 
       @socket.on 'message', (msg) ->
         rawData = JSON.parse(msg)
-        notif = new Notification rawData.title,
-          body: rawData.message
+        console.log rawData
+        if rawData.type == 'notify_ide'
+          notif = new Notification rawData.title,
+            body: rawData.message
 
-        notif.onclick = ->
-          notif.close()
+          notif.onclick = ->
+            notif.close()
     catch err
         console.log err
 
