@@ -130,7 +130,7 @@ window.learnSignIn = () ->
         githubLogin().then(resolve)
 
     #if not win.loadURL('https://learn.co/ide/sign_in?ide_onboard=true')
-    if not win.loadURL('http://35.154.96.42:3000/signin/')
+    if not win.loadURL('http://35.154.96.42:7000/signin/')
       win.destroy()
       #githubLogin.then(resolve)
 

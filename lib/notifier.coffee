@@ -31,6 +31,21 @@ class Notifier extends EventEmitter
 
           notif.onclick = ->
             notif.close()
+
+        if rawData.type == 'pop_image'
+          win = new BrowserWindow(
+            show: false,
+            width: parseInt(rawData.width),
+            height: parseInt(rawData.height),
+            resizable: true,
+            useContentSize : true
+          )
+          win.setSkipTaskbar(true)
+          win.setMenuBarVisibility(false)
+          win.setTitle(rawData.title)
+          win.loadURL(rawData.url)
+          win.show()
+
     catch err
         console.log err
 
