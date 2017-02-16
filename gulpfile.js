@@ -20,7 +20,7 @@ var buildDir = path.join(__dirname, 'build')
 console.log('build directory', buildDir)
 
 function productName() {
-  var name = 'Learn IDE';
+  var name = 'Greyatom IDE';
 
   if (buildBeta) {
     name += ' Beta';
@@ -122,8 +122,8 @@ gulp.task('inject-packages', function() {
   var pkg = require('./package.json')
   rmPackage('welcome')
   rmPackage('tree-view')
-  injectPackage('learn-ide', pkg.version)
-  injectPackage('learn-ide-tree', pkg.treeVersion)
+  injectPackage('greyatom-ide', pkg.version)
+  injectPackage('greyatom-tree-view', pkg.treeVersion)
 })
 
 gulp.task('replace-files', function() {
@@ -157,7 +157,7 @@ gulp.task('alter-files', function() {
   replaceInFile(path.join(buildDir, 'script', 'lib', 'create-windows-installer.js'), [
     [
       'https://raw.githubusercontent.com/atom/atom/master/resources/app-icons/${CONFIG.channel}/atom.ico',
-      'https://raw.githubusercontent.com/learn-co/learn-ide/master/resources/app-icons/atom.ico'
+      'https://raw.github.com/greyatom-edu-tech/greyatom-ide/master/resources/app-icons/atom.ico'
     ]
   ])
 
@@ -204,14 +204,14 @@ gulp.task('alter-files', function() {
   replaceInFile(path.join(buildDir, 'resources', 'mac', 'atom-Info.plist'), [
     [
       /(CFBundleURLSchemes.+\n.+\n.+)(atom)(.+)/,
-      '$1learn-ide$3'
+      '$1greyatom-ide$3'
     ]
   ]);
 
   replaceInFile(path.join(buildDir, 'src', 'main-process', 'atom-protocol-handler.coffee'), [
     [
       /(registerFileProtocol.+)(atom)(.+)/,
-      '$1learn-ide$3'
+      '$1greyatom-ide$3'
     ]
   ]);
 
@@ -230,12 +230,12 @@ gulp.task('alter-files', function() {
 gulp.task('update-package-json', function() {
   var packageJSON = path.join(buildDir, 'package.json')
   var atomPkg = JSON.parse(fs.readFileSync(packageJSON))
-  var learnPkg = require('./package.json')
+  var greyatomPkg = require('./package.json')
 
   atomPkg.name = executableName()
   atomPkg.productName = productName()
-  atomPkg.version = learnPkg.version
-  atomPkg.description = learnPkg.description
+  atomPkg.version = greyatomPkg.version
+  atomPkg.description = greyatomPkg.description
 
   fs.writeFileSync(packageJSON, JSON.stringify(atomPkg, null, '  '))
 })
@@ -311,4 +311,3 @@ gulp.task('build', function(done) {
     done
   )
 })
-

@@ -144,6 +144,9 @@ module.exports =
     learn = new BrowserWindow(show: false)
     learn.webContents.on 'did-finish-load', -> learn.destroy()
     learn.loadURL('https://learn.co/sign_out')
+    
+    if atom.project and atom.project.remoteftp
+      atom.project.remoteftp.disconnectStudentFtp()
 
     atomHelper.emit('greyatom-ide:logout')
     atomHelper.closePaneItems()

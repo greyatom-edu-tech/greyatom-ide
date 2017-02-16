@@ -174,7 +174,7 @@ promptManualEntry = ->
         if res
           _token.set(token)
           panel.destroy()
-          atom.commands.dispatch(workspaceView, 'learn-ide:toggle-terminal')
+          atom.commands.dispatch(workspaceView, 'greyatom-ide:toggle-terminal')
           return true
         else
           invalidLabel.setAttribute 'style', 'color: red; opacity: 100;'

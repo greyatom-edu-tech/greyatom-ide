@@ -1,7 +1,7 @@
 localStorage = require './local-storage'
 bus = require('./event-bus')()
 
-TOKEN_KEY = 'learn-ide:token'
+TOKEN_KEY = 'greyatom-ide:token'
 
 module.exports = token = {
   get: ->

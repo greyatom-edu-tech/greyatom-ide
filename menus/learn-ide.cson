@@ -2,21 +2,21 @@
   'atom-text-editor': [
     {
       'label': 'Toggle Learn IDE Terminal'
-      'command': 'learn-ide:toggle-terminal'
+      'command': 'greyatom-ide:toggle-terminal'
     }
   ]
   '.learn-terminal': [
     {
       'label': 'Copy'
-      'command': 'learn-ide:copy'
+      'command': 'greyatom-ide:copy'
     }
     {
       'label': 'Paste'
-      'command': 'learn-ide:paste'
+      'command': 'greyatom-ide:paste'
     }
     {
       'label': 'Hide Learn IDE Terminal'
-      'command': 'learn-ide:toggle-terminal'
+      'command': 'greyatom-ide:toggle-terminal'
     }
   ]
 'menu': [
@@ -27,23 +27,23 @@
       'submenu': [
         {
           'label': 'Focus Terminal'
-          'command': 'learn-ide:toggle-focus'
+          'command': 'greyatom-ide:toggle-focus'
         }
         {
           'label': 'Toggle Terminal'
-          'command': 'learn-ide:toggle-terminal'
+          'command': 'greyatom-ide:toggle-terminal'
         }
         {
           'label': 'Toggle Debugger'
-          'command': 'learn-ide:toggle:debugger'
+          'command': 'greyatom-ide:toggle:debugger'
         }
         {
           'label': 'Reconnect'
-          'command': 'learn-ide:reset'
+          'command': 'greyatom-ide:reset'
         }
         {
           'label': 'Log In/Out'
-          'command': 'learn-ide:log-in-out'
+          'command': 'greyatom-ide:log-in-out'
         }
       ]
     ]

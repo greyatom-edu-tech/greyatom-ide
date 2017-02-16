@@ -3,7 +3,7 @@
   "version": "0.2.4",
   "atomVersion": "1.12.2",
   "treeVersion": "1.0.17",
-  "main": "./lib/learn-ide",
+  "main": "./lib/greyatom-ide",
   "urlMain": "./lib/url-handler",
   "description": "An integrated development environment for use with greyatom.com",
   "scripts": {
