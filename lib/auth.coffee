@@ -100,9 +100,11 @@ window.learnSignIn = () ->
         token = url.parse(tokenUrl, true).query.ide_token
         if token?.length
           confirmOauthToken(token).then (res) ->
-           return unless res
-           _token.set(token)
-           resolve()
+            return unless res
+            _token.set(token)
+            if atom.project and atom.project.remoteftp
+              atom.project.remoteftp.connectToStudentFTP()
+            resolve()
         # console.log('TOKEN:', token)
         # _token.set(token)
         # resolve()
@@ -130,7 +132,7 @@ window.learnSignIn = () ->
         githubLogin().then(resolve)
 
     #if not win.loadURL('https://learn.co/ide/sign_in?ide_onboard=true')
-    if not win.loadURL('http://35.154.96.42:3000/signin/')
+    if not win.loadURL('http://35.154.96.42:7000/signin/')
       win.destroy()
       #githubLogin.then(resolve)
 
