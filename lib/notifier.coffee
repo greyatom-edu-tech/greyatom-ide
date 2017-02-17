@@ -5,6 +5,8 @@ AtomSocket = require 'atom-socket'
 atomHelper = require './atom-helper'
 path = require 'path'
 io = require 'socket.io-client'
+remote = require 'remote'
+BrowserWindow = remote.require('browser-window')
 
 module.exports =
 class Notifier extends EventEmitter
