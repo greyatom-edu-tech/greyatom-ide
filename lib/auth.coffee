@@ -200,5 +200,4 @@ module.exports = ->
   if !existingToken
     greyatomSignIn()
   else
-    greyatomSignIn()
-    #confirmOauthToken(existingToken)
+    confirmOauthToken(existingToken)
