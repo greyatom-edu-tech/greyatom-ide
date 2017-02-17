@@ -52,7 +52,7 @@ githubLogin = () ->
 
     win.setSkipTaskbar(true)
     win.setMenuBarVisibility(false)
-    win.setTitle('Sign in to Github to get started with the Learn IDE')
+    win.setTitle('Sign in to Github to get started with the GreyAtom IDE')
 
     # show window only if login is required
     webContents.on 'did-finish-load', -> win.show()
@@ -73,7 +73,7 @@ githubLogin = () ->
     if not win.loadURL('https://learn.co/ide/token?ide_config=true')
       promptManualEntry()
 
-window.learnSignIn = () ->
+window.greyatomSignIn = () ->
   new Promise (resolve, reject) ->
     win = new BrowserWindow(show: false, width: 400, height: 600, resizable: false)
     {webContents} = win
@@ -184,21 +184,21 @@ githubLogout = ->
   win.webContents.on 'did-finish-load', -> win.show()
   win.loadURL('https://github.com/logout')
 
-learnLogout = ->
+greyatomLogout = ->
   win = new BrowserWindow(show: false)
   win.webContents.on 'did-finish-load', -> win.destroy()
   win.loadURL('https://learn.co/sign_out')
 
 window.logout = ->
   _token.unset()
-  learnLogout()
+  greyatomLogout()
   githubLogout()
 
 module.exports = ->
   existingToken = _token.get()
 
   if !existingToken
-    learnSignIn()
+    greyatomSignIn()
   else
-    learnSignIn()
+    greyatomSignIn()
     #confirmOauthToken(existingToken)

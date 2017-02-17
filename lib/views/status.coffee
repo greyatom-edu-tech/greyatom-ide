@@ -8,7 +8,7 @@ module.exports =
 class StatusView extends View
   @content: ->
     @div class: 'learn-synced-fs-status', =>
-      @div class: 'learn-status-icon inline-block icon-terminal', id: 'learn-status-icon', ' Learn'
+      @div class: 'learn-status-icon inline-block icon-terminal', id: 'learn-status-icon', ' Greyatom'
       @div class: 'learn-popout-terminal-icon inline-block icon-link-external', id: 'learn-popout-terminal-icon'
 
   constructor: (state, termSocket, @options) ->
@@ -24,7 +24,7 @@ class StatusView extends View
   activateEventHandlers: ->
     @socket.on 'open', =>
       icon = @statusIcon()
-      icon.textContent = ' Learn'
+      icon.textContent = 'Greyatom'
       icon.dataset.status = 'good'
 
     @socket.on 'close', =>
@@ -33,14 +33,14 @@ class StatusView extends View
     @socket.on 'error', =>
       @displayDisconnected()
 
-    @statusIcon().addEventListener 'click', (e) =>  
+    @statusIcon().addEventListener 'click', (e) =>
       # TODO: have this based on the socket state itself instead of the view state
       if e.target.dataset.status == 'bad'
         @socket.reset()
 
   displayDisconnected: ->
     icon = @statusIcon()
-    icon.textContent = ' Learn...reconnect?'
+    icon.textContent = ' Greyatom...reconnect?'
     icon.dataset.status = 'bad'
 
   activatePopoutIcon: ->

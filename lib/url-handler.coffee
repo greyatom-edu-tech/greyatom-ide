@@ -8,7 +8,7 @@ getLabSlug = ->
   url.parse(urlToOpen).pathname.substring(1)
 
 openInNewWindow = ->
-  localStorage.set('learnOpenLabOnActivation', getLabSlug())
+  localStorage.set('greyatomOpenLabOnActivation', getLabSlug())
   ipcRenderer.send('command', 'application:new-window')
 
 openInExistingWindow = ->
@@ -25,5 +25,5 @@ module.exports = ({blobStore}) ->
     openInNewWindow()
   else
     openInExistingWindow()
-  
+
   Promise.resolve()

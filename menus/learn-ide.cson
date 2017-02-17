@@ -1,7 +1,7 @@
 'context-menu':
   'atom-text-editor': [
     {
-      'label': 'Toggle Learn IDE Terminal'
+      'label': 'Toggle Greyatom IDE Terminal'
       'command': 'greyatom-ide:toggle-terminal'
     }
   ]
@@ -15,7 +15,7 @@
       'command': 'greyatom-ide:paste'
     }
     {
-      'label': 'Hide Learn IDE Terminal'
+      'label': 'Hide Greyatom IDE Terminal'
       'command': 'greyatom-ide:toggle-terminal'
     }
   ]
@@ -23,7 +23,7 @@
   {
     'label': 'Packages'
     'submenu': [
-      'label': 'Learn IDE'
+      'label': 'Greyatom IDE'
       'submenu': [
         {
           'label': 'Focus Terminal'

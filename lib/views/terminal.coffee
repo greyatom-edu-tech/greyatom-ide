@@ -50,7 +50,7 @@ class TerminalView extends View
     @terminalWrapper.off 'data'
     @terminalWrapper.element.style.color = '#666'
     @terminalWrapper.cursorHidden = true
-    @terminalWrapper.write('Unable to connect to Learn\r')
+    @terminalWrapper.write('Unable to connect to Greyatom\r')
 
   handleEvents: ->
     @on 'focus', => @fitTerminal()

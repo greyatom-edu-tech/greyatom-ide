@@ -17,7 +17,7 @@ module.exports =
   token: require('./token')
 
   activate: (state) ->
-    console.log 'activating learn ide'
+    console.log 'activating Greyatom ide'
     @checkForV1WindowsInstall()
     @registerWindowsProtocol()
     # @disableFormerPackage()
@@ -94,9 +94,9 @@ module.exports =
     atom.config.onDidChange 'greyatom-ide.notifier', ({newValue}) =>
       if newValue then @activateNotifier() else @notifier.deactivate()
 
-    openPath = localStorage.get('learnOpenLabOnActivation')
+    openPath = localStorage.get('greyatomOpenLabOnActivation')
     if openPath
-      localStorage.delete('learnOpenLabOnActivation')
+      localStorage.delete('greyatomOpenLabOnActivation')
       @termView.openLab(openPath)
 
 
@@ -144,7 +144,7 @@ module.exports =
     learn = new BrowserWindow(show: false)
     learn.webContents.on 'did-finish-load', -> learn.destroy()
     learn.loadURL('https://learn.co/sign_out')
-    
+
     if atom.project and atom.project.remoteftp
       atom.project.remoteftp.disconnectStudentFtp()
 
