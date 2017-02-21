@@ -2,7 +2,7 @@
   "name": "greyatom-ide",
   "version": "0.2.9",
   "atomVersion": "1.12.2",
-  "treeVersion": "1.0.6",
+  "treeVersion": "1.0.8",
   "main": "./lib/greyatom-ide",
   "urlMain": "./lib/url-handler",
   "description": "An integrated development environment for use with greyatom.com",
