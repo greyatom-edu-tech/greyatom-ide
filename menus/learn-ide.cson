@@ -1,49 +1,49 @@
 'context-menu':
   'atom-text-editor': [
     {
-      'label': 'Toggle Greyatom IDE Terminal'
-      'command': 'greyatom-ide:toggle-terminal'
+      'label': 'Toggle Commit Live Terminal'
+      'command': 'commit-live:toggle-terminal'
     }
   ]
   '.learn-terminal': [
     {
       'label': 'Copy'
-      'command': 'greyatom-ide:copy'
+      'command': 'commit-live:copy'
     }
     {
       'label': 'Paste'
-      'command': 'greyatom-ide:paste'
+      'command': 'commit-live:paste'
     }
     {
-      'label': 'Hide Greyatom IDE Terminal'
-      'command': 'greyatom-ide:toggle-terminal'
+      'label': 'Hide Commit Live Terminal'
+      'command': 'commit-live:toggle-terminal'
     }
   ]
 'menu': [
   {
     'label': 'Packages'
     'submenu': [
-      'label': 'Greyatom IDE'
+      'label': 'Commit Live'
       'submenu': [
         {
           'label': 'Focus Terminal'
-          'command': 'greyatom-ide:toggle-focus'
+          'command': 'commit-live:toggle-focus'
         }
         {
           'label': 'Toggle Terminal'
-          'command': 'greyatom-ide:toggle-terminal'
+          'command': 'commit-live:toggle-terminal'
         }
         {
           'label': 'Toggle Debugger'
-          'command': 'greyatom-ide:toggle:debugger'
+          'command': 'commit-live:toggle:debugger'
         }
         {
           'label': 'Reconnect'
-          'command': 'greyatom-ide:reset'
+          'command': 'commit-live:reset'
         }
         {
           'label': 'Log In/Out'
-          'command': 'greyatom-ide:log-in-out'
+          'command': 'commit-live:log-in-out'
         }
       ]
     ]

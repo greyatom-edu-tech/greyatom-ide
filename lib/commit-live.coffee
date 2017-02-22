@@ -17,7 +17,7 @@ module.exports =
   token: require('./token')
 
   activate: (state) ->
-    console.log 'activating Greyatom ide'
+    console.log 'activating Commit Live'
     @checkForV1WindowsInstall()
     @registerWindowsProtocol()
     # @disableFormerPackage()
@@ -83,25 +83,25 @@ module.exports =
 
   activateSubscriptions: ->
     @subscriptions.add atom.commands.add 'atom-workspace',
-      'greyatom-ide:open': (e) => @termView.openLab(e.detail.path)
-      'greyatom-ide:toggle-terminal': () => @termView.toggle()
-      'greyatom-ide:toggle-focus': => @termView.toggleFocus()
-      'greyatom-ide:focus': => @termView.fullFocus()
-      'greyatom-ide:toggle:debugger': => @term.toggleDebugger()
-      'greyatom-ide:reset': => @term.reset()
+      'commit-live:open': (e) => @termView.openLab(e.detail.path)
+      'commit-live:toggle-terminal': () => @termView.toggle()
+      'commit-live:toggle-focus': => @termView.toggleFocus()
+      'commit-live:focus': => @termView.fullFocus()
+      'commit-live:toggle:debugger': => @term.toggleDebugger()
+      'commit-live:reset': => @term.reset()
       'application:update-ile': -> (new Updater).checkForUpdate()
 
-    atom.config.onDidChange 'greyatom-ide.notifier', ({newValue}) =>
+    atom.config.onDidChange 'commit-live.notifier', ({newValue}) =>
       if newValue then @activateNotifier() else @notifier.deactivate()
 
-    openPath = localStorage.get('greyatomOpenLabOnActivation')
+    openPath = localStorage.get('commitLiveOpenLabOnActivation')
     if openPath
-      localStorage.delete('greyatomOpenLabOnActivation')
+      localStorage.delete('commitLiveOpenLabOnActivation')
       @termView.openLab(openPath)
 
 
   activateNotifier: ->
-    if atom.config.get('greyatom-ide.notifier')
+    if atom.config.get('commit-live.notifier')
       @notifier = new Notifier(@token.get())
       @notifier.activate()
 
@@ -118,7 +118,7 @@ module.exports =
 
   subscribeToLogin: ->
     @subscriptions.add atom.commands.add 'atom-workspace',
-      'greyatom-ide:log-in-out': => @logInOrOut()
+      'commit-live:log-in-out': => @logInOrOut()
 
   cleanup: ->
     atomHelper.cleanup()
@@ -148,7 +148,7 @@ module.exports =
     if atom.project and atom.project.remoteftp
       atom.project.remoteftp.disconnectStudentFtp()
 
-    atomHelper.emit('greyatom-ide:logout')
+    atomHelper.emit('commit-live:logout')
     atomHelper.closePaneItems()
     atom.reload()
 

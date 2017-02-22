@@ -9,11 +9,11 @@
   isWindows = process.platform == 'win32'
   return if !isWindows
 
-  installLocationX86 = path.join((process.env['ProgramFiles(x86)'] || ''), 'Greyatom IDE')
-  installLocation = path.join((process.env['ProgramFiles'] || ''), 'Greyatom IDE')
+  installLocationX86 = path.join((process.env['ProgramFiles(x86)'] || ''), 'Commit Live')
+  installLocation = path.join((process.env['ProgramFiles'] || ''), 'Commit Live')
 
   if (fs.existsSync(installLocationX86) || fs.existsSync(installLocation))
-    alert("You appear to have two versions of the Greyatom IDE installed. This happens when upgrading from v1.9 to v2 on Windows. Please uninstall v1.9 by following the instructions in the help article that opens when you close this alert.")
+    alert("You appear to have two versions of the Commit Live installed. This happens when upgrading from v1.9 to v2 on Windows. Please uninstall v1.9 by following the instructions in the help article that opens when you close this alert.")
     shell.openExternal('https://theflatironschool.zendesk.com/hc/en-us/articles/235711268')
 
     v1InitFile = path.join((atom.getConfigDirPath() || ''), 'ide-init.coffee')

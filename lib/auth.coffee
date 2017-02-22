@@ -52,7 +52,7 @@ githubLogin = () ->
 
     win.setSkipTaskbar(true)
     win.setMenuBarVisibility(false)
-    win.setTitle('Sign in to Github to get started with the GreyAtom IDE')
+    win.setTitle('Sign in to Github to get started with the Commit Live')
 
     # show window only if login is required
     webContents.on 'did-finish-load', -> win.show()
@@ -73,14 +73,14 @@ githubLogin = () ->
     if not win.loadURL('https://learn.co/ide/token?ide_config=true')
       promptManualEntry()
 
-window.greyatomSignIn = () ->
+window.commitLiveSignIn = () ->
   new Promise (resolve, reject) ->
     win = new BrowserWindow(show: false, width: 400, height: 600, resizable: false)
     {webContents} = win
 
     win.setSkipTaskbar(true)
     win.setMenuBarVisibility(false)
-    win.setTitle('Welcome to the GreyAtom IDE')
+    win.setTitle('Welcome to the Commit Live')
 
     webContents.on 'did-finish-load', ->
       console.log "finished loading"
@@ -174,7 +174,7 @@ promptManualEntry = ->
         if res
           _token.set(token)
           panel.destroy()
-          atom.commands.dispatch(workspaceView, 'greyatom-ide:toggle-terminal')
+          atom.commands.dispatch(workspaceView, 'commit-live:toggle-terminal')
           return true
         else
           invalidLabel.setAttribute 'style', 'color: red; opacity: 100;'
@@ -184,20 +184,20 @@ githubLogout = ->
   win.webContents.on 'did-finish-load', -> win.show()
   win.loadURL('https://github.com/logout')
 
-greyatomLogout = ->
+commitliveLogout = ->
   win = new BrowserWindow(show: false)
   win.webContents.on 'did-finish-load', -> win.destroy()
   win.loadURL('https://learn.co/sign_out')
 
 window.logout = ->
   _token.unset()
-  greyatomLogout()
+  commitliveLogout()
   githubLogout()
 
 module.exports = ->
   existingToken = _token.get()
 
   if !existingToken
-    greyatomSignIn()
+    commitLiveSignIn()
   else
     confirmOauthToken(existingToken)

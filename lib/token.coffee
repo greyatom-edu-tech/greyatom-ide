@@ -1,7 +1,7 @@
 localStorage = require './local-storage'
 bus = require('./event-bus')()
 
-TOKEN_KEY = 'greyatom-ide:token'
+TOKEN_KEY = 'commit-live:token'
 
 module.exports = token = {
   get: ->

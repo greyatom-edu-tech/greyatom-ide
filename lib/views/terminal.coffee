@@ -38,13 +38,13 @@ class TerminalView extends View
       atom.commands.dispatch(workspaceView, 'tree-view:toggle')
 
   applyEditorStyling: ->
-    fontSize = localStorage.get('greyatom-ide:currentFontSize')
+    fontSize = localStorage.get('commit-live:currentFontSize')
     fontSize ?= atom.config.defaultSettings.editor.fontSize
     @terminalWrapper.element.style.height = '100%'
     @terminalWrapper.element.style.fontFamily = -> atom.config.get('editor.fontFamily') or "monospace"
     @terminalWrapper.element.style.fontSize = "#{fontSize}px"
-    @openColor = atom.config.get('greyatom-ide.terminalFontColor')
-    @openBackgroundColor = atom.config.get('greyatom-ide.terminalBackgroundColor')
+    @openColor = atom.config.get('commit-live.terminalFontColor')
+    @openBackgroundColor = atom.config.get('commit-live.terminalBackgroundColor')
 
   displayDisconnected: ->
     @terminalWrapper.off 'data'
@@ -79,8 +79,8 @@ class TerminalView extends View
         # TODO: handle non-darwin copy/paste shortcut in keymaps
         {ctrlKey, shiftKey, which} = event if event
         if process.platform isnt 'darwin' and event and ctrlKey and shiftKey
-          atom.commands.dispatch(@element, 'greyatom-ide:copy') if which is 67
-          atom.commands.dispatch(@element, 'greyatom-ide:paste') if which is 86
+          atom.commands.dispatch(@element, 'commit-live:copy') if which is 67
+          atom.commands.dispatch(@element, 'commit-live:paste') if which is 86
         else
           self.terminal.send data
       @terminalWrapper.element.style.color = @openColor
@@ -90,13 +90,13 @@ class TerminalView extends View
     atom.commands.onDidDispatch (e) => @updateFocus(e)
 
     atom.commands.add @element,
-      'core:copy': => atom.commands.dispatch(@element, 'greyatom-ide:copy')
-      'core:paste': => atom.commands.dispatch(@element, 'greyatom-ide:paste')
-      'greyatom-ide:copy': => @copy()
-      'greyatom-ide:paste': => @paste()
-      'greyatom-ide:increase-font-size': => @increaseFontSize()
-      'greyatom-ide:decrease-font-size': => @decreaseFontSize()
-      'greyatom-ide:reset-font-size': => @resetFontSize()
+      'core:copy': => atom.commands.dispatch(@element, 'commit-live:copy')
+      'core:paste': => atom.commands.dispatch(@element, 'commit-live:paste')
+      'commit-live:copy': => @copy()
+      'commit-live:paste': => @paste()
+      'commit-live:increase-font-size': => @increaseFontSize()
+      'commit-live:decrease-font-size': => @decreaseFontSize()
+      'commit-live:reset-font-size': => @resetFontSize()
 
   openLab: (path = @openPath)->
     if path
@@ -151,7 +151,7 @@ class TerminalView extends View
     @changeFontSize defaultSize
 
   persistFontSize: (fontSize = @currentFontSize()) ->
-    localStorage.set('greyatom-ide:currentFontSize', fontSize)
+    localStorage.set('commit-live:currentFontSize', fontSize)
 
   changeFontSize: (fontSize) ->
     @$termEl.css 'font-size', fontSize

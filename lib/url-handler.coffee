@@ -8,7 +8,7 @@ getLabSlug = ->
   url.parse(urlToOpen).pathname.substring(1)
 
 openInNewWindow = ->
-  localStorage.set('greyatomOpenLabOnActivation', getLabSlug())
+  localStorage.set('commitLiveOpenLabOnActivation', getLabSlug())
   ipcRenderer.send('command', 'application:new-window')
 
 openInExistingWindow = ->

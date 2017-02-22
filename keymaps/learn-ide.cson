@@ -1,18 +1,18 @@
 '.platform-darwin':
-  'cmd-i': 'greyatom-ide:toggle-terminal'
-  'cmd-;': 'greyatom-ide:toggle-focus'
+  'cmd-i': 'commit-live:toggle-terminal'
+  'cmd-;': 'commit-live:toggle-focus'
 
 '.platform-darwin .learn-terminal':
-  'cmd-c': 'greyatom-ide:copy'
-  'cmd-v': 'greyatom-ide:paste'
-  'cmd-=': 'greyatom-ide:increase-font-size'
-  'cmd--': 'greyatom-ide:decrease-font-size'
-  'cmd-0': 'greyatom-ide:reset-font-size'
+  'cmd-c': 'commit-live:copy'
+  'cmd-v': 'commit-live:paste'
+  'cmd-=': 'commit-live:increase-font-size'
+  'cmd--': 'commit-live:decrease-font-size'
+  'cmd-0': 'commit-live:reset-font-size'
 
 '.platform-win32 .learn-terminal':
   # TODO: make these work & remove listeners in TerminalView
-  # 'ctrl-shift-C': 'greyatom-ide:copy'
-  # 'ctrl-shift-V': 'greyatom-ide:paste'
-  'ctrl-+': 'greyatom-ide:increase-font-size'
-  'ctrl-_': 'greyatom-ide:decrease-font-size'
-  'ctrl-0': 'greyatom-ide:reset-font-size'
+  # 'ctrl-shift-C': 'commit-live:copy'
+  # 'ctrl-shift-V': 'commit-live:paste'
+  'ctrl-+': 'commit-live:increase-font-size'
+  'ctrl-_': 'commit-live:decrease-font-size'
+  'ctrl-0': 'commit-live:reset-font-size'

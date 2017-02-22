@@ -2,8 +2,8 @@
   "name": "greyatom-ide",
   "version": "0.2.9",
   "atomVersion": "1.12.2",
-  "treeVersion": "1.0.9",
-  "main": "./lib/greyatom-ide",
+  "treeVersion": "1.0.11",
+  "main": "./lib/commit-live",
   "urlMain": "./lib/url-handler",
   "description": "An integrated development environment for use with greyatom.com",
   "scripts": {
