@@ -20,7 +20,7 @@ var buildDir = path.join(__dirname, 'build')
 console.log('build directory', buildDir)
 
 function productName() {
-  var name = 'Greyatom IDE';
+  var name = 'Commit Live';
 
   if (buildBeta) {
     name += ' Beta';
@@ -204,14 +204,14 @@ gulp.task('alter-files', function() {
   replaceInFile(path.join(buildDir, 'resources', 'mac', 'atom-Info.plist'), [
     [
       /(CFBundleURLSchemes.+\n.+\n.+)(atom)(.+)/,
-      '$1greyatom-ide$3'
+      '$1commit-live$3'
     ]
   ]);
 
   replaceInFile(path.join(buildDir, 'src', 'main-process', 'atom-protocol-handler.coffee'), [
     [
       /(registerFileProtocol.+)(atom)(.+)/,
-      '$1greyatom-ide$3'
+      '$1commit-live$3'
     ]
   ]);
 
