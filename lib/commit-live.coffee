@@ -91,7 +91,7 @@ module.exports =
       'commit-live:reset': => @term.reset()
       'application:update-ile': -> (new Updater).checkForUpdate()
 
-    atom.config.onDidChange 'commit-live.notifier', ({newValue}) =>
+    atom.config.onDidChange 'greyatom-ide.notifier', ({newValue}) =>
       if newValue then @activateNotifier() else @notifier.deactivate()
 
     openPath = localStorage.get('commitLiveOpenLabOnActivation')
@@ -101,7 +101,7 @@ module.exports =
 
 
   activateNotifier: ->
-    if atom.config.get('commit-live.notifier')
+    if atom.config.get('greyatom-ide.notifier')
       @notifier = new Notifier(@token.get())
       @notifier.activate()
 
