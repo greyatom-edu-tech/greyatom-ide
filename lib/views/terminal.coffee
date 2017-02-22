@@ -100,7 +100,7 @@ class TerminalView extends View
 
   openLab: (path = @openPath)->
     if path
-      @terminal.send('learn open ' + path.toString() + '\r')
+      @terminal.send('greyatom open ' + path.toString() + '\r')
       @openPath = null
 
   onBlur: (e) ->
