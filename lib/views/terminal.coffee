@@ -101,7 +101,7 @@ class TerminalView extends View
   openLab: (path = @openPath)->
     console.log "in openLab"
     if path
-    console.log "in openLab path"  
+      console.log "in openLab path"  
       @terminal.send('greyatom open ' + path.toString() + '\r')
       @openPath = null
 

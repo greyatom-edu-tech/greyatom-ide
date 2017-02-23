@@ -45,22 +45,32 @@ gulp.task('setup', function() {
 });
 
 gulp.task('download-atom', function(done) {
-  var tarballURL = `https://github.com/atom/atom/archive/v${ pkg.atomVersion }.tar.gz`
+   var tarballURL = `https://github.com/atom/atom/archive/v${ pkg.atomVersion }.tar.gz`
+  var tarballURL = `http://localhost/atom-1.12.2.tar`
   console.log(`Downloading Atom from ${ tarballURL }`)
+
+  fs.unlinkSync(path.join(buildDir, 'docs','contributing.md'))
+
   var tarballPath = path.join(buildDir, 'atom.tar.gz')
-
-  var r = request(tarballURL)
-
-  r.on('end', function() {
-    decompress(tarballPath, buildDir, {strip: 1}).then(function(files) {
-      // fs.unlinkSync(tarballPath)
-      done()
-    }).catch(function(err) {
-      console.error(err)
-    })
+  decompress(tarballPath, buildDir, {strip: 1}).then(function(files) {
+    // fs.unlinkSync(tarballPath)
+    done()
+  }).catch(function(err) {
+    console.error(err)
   })
-
-  r.pipe(fs.createWriteStream(tarballPath))
+  //
+  // var r = request(tarballURL)
+  //
+  // r.on('end', function() {
+  //   decompress(tarballPath, buildDir, {strip: 1}).then(function(files) {
+  //     // fs.unlinkSync(tarballPath)
+  //     done()
+  //   }).catch(function(err) {
+  //     console.error(err)
+  //   })
+  // })
+  //
+  // r.pipe(fs.createWriteStream(tarballPath))
 })
 
 gulp.task('build-atom', function(done) {
@@ -215,6 +225,18 @@ gulp.task('alter-files', function() {
     ]
   ]);
 
+  replaceInFile(path.join(buildDir, 'script', 'package.json'), [
+    [
+      '~1.3',
+      'http://localhost/electron-1.3.0-chromedriver-v2.21-darwin-x64.zip'
+    ],
+    [
+      '~7.3.0',
+      'http://localhost/electron-v1.3.6-darwin-x64.zip'
+    ]
+  ]);
+
+
   replaceInFile(path.join(buildDir, 'src', 'main-process', 'parse-command-line.js'), [
     [
       /(urlsToOpen.+)/,
@@ -303,7 +325,7 @@ gulp.task('build', function(done) {
   if (pkg.version.match(/beta/)) { buildBeta = true }
 
   runSequence(
-    'reset',
+    // 'reset',
     'download-atom',
     'prep-build',
     'build-atom',
