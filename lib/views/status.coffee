@@ -8,8 +8,8 @@ module.exports =
 class StatusView extends View
   @content: ->
     @div class: 'learn-synced-fs-status', =>
-      @div class: 'learn-status-icon inline-block icon-terminal', id: 'learn-status-icon', ' Greyatom'
-      @div class: 'learn-popout-terminal-icon inline-block icon-link-external', id: 'learn-popout-terminal-icon'
+      @div class: 'learn-status-icon inline-block icon-terminal', id: 'learn-status-icon', ' Commit Live'
+      # @div class: 'learn-popout-terminal-icon inline-block icon-link-external', id: 'learn-popout-terminal-icon'
 
   constructor: (state, termSocket, @options) ->
     super
@@ -24,7 +24,7 @@ class StatusView extends View
   activateEventHandlers: ->
     @socket.on 'open', =>
       icon = @statusIcon()
-      icon.textContent = 'Greyatom'
+      icon.textContent = 'Commit Live'
       icon.dataset.status = 'good'
 
     @socket.on 'close', =>
@@ -40,7 +40,7 @@ class StatusView extends View
 
   displayDisconnected: ->
     icon = @statusIcon()
-    icon.textContent = ' Greyatom...reconnect?'
+    icon.textContent = ' Commit Live...reconnect?'
     icon.dataset.status = 'bad'
 
   activatePopoutIcon: ->

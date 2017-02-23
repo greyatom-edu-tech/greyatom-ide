@@ -44,7 +44,7 @@ module.exports =
     @activateEventHandlers()
     @activateSubscriptions()
     @activateNotifier()
-    @activateUpdater()
+    # @activateUpdater()
 
   activateTerminal: ->
     @term = new Terminal
@@ -89,7 +89,7 @@ module.exports =
       'commit-live:focus': => @termView.fullFocus()
       'commit-live:toggle:debugger': => @term.toggleDebugger()
       'commit-live:reset': => @term.reset()
-      'application:update-ile': -> (new Updater).checkForUpdate()
+      # 'application:update-ile': -> (new Updater).checkForUpdate()
 
     atom.config.onDidChange 'greyatom-ide.notifier', ({newValue}) =>
       if newValue then @activateNotifier() else @notifier.deactivate()

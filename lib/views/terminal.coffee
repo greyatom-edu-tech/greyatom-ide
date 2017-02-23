@@ -50,7 +50,7 @@ class TerminalView extends View
     @terminalWrapper.off 'data'
     @terminalWrapper.element.style.color = '#666'
     @terminalWrapper.cursorHidden = true
-    @terminalWrapper.write('Unable to connect to Greyatom\r')
+    @terminalWrapper.write('Unable to connect to Commit Live\r')
 
   handleEvents: ->
     @on 'focus', => @fitTerminal()
@@ -101,7 +101,7 @@ class TerminalView extends View
   openLab: (path = @openPath)->
     console.log "in openLab"
     if path
-      console.log "in openLab path"  
+      console.log "in openLab path"
       @terminal.send('greyatom open ' + path.toString() + '\r')
       @openPath = null
 
