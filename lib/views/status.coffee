@@ -15,7 +15,7 @@ class StatusView extends View
     super
     @socket = termSocket
     @activateEventHandlers()
-    @activatePopoutIcon()
+    # @activatePopoutIcon()
 
   on: ->
     @emitter || (@emitter = new EventEmitter)
