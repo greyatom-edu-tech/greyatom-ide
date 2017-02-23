@@ -37,4 +37,3 @@ module.exports =
     atom.packages.deactivatePackage(packageName())
     atom.packages.activatePackage(packageName()).then ->
       atom.menu.sortPackagesMenu()
-

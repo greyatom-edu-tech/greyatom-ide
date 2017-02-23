@@ -26,7 +26,6 @@ module.exports =
     @subscribeToLogin()
 
     @waitForAuth = auth().then =>
-      console.log 'i am inside'
       @activateIDE(state)
       console.log('successfully authenticated')
     .catch =>
@@ -72,6 +71,7 @@ module.exports =
 
     # listen for learn:open event from other render processes (url handler)
     bus.on 'learn:open', (lab) =>
+      console.log "inside bus.on " , lab.slug
       @termView.openLab(lab.slug)
       atom.getCurrentWindow().focus()
 

@@ -20,8 +20,6 @@ module.exports = class Terminal extends EventEmitter
     @connect()
 
   connect: (token) ->
-    console.log "url"
-    console.log @url()
     @socket = new AtomSocket('term', @url())
 
     @waitForSocket = new Promise (resolve, reject) =>

@@ -99,7 +99,9 @@ class TerminalView extends View
       'commit-live:reset-font-size': => @resetFontSize()
 
   openLab: (path = @openPath)->
+    console.log "in openLab"
     if path
+    console.log "in openLab path"  
       @terminal.send('greyatom open ' + path.toString() + '\r')
       @openPath = null
 

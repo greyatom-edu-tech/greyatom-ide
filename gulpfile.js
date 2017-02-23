@@ -53,7 +53,7 @@ gulp.task('download-atom', function(done) {
 
   r.on('end', function() {
     decompress(tarballPath, buildDir, {strip: 1}).then(function(files) {
-      fs.unlinkSync(tarballPath)
+      // fs.unlinkSync(tarballPath)
       done()
     }).catch(function(err) {
       console.error(err)
