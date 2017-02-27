@@ -1,7 +1,7 @@
 {
   "name": "greyatom-ide",
   "version": "0.2.19",
-  "atomVersion": "1.12.2",
+  "atomVersion": "1.14.2",
   "treeVersion": "1.0.11",
   "main": "./lib/commit-live",
   "urlMain": "./lib/url-handler",
