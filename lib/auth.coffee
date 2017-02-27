@@ -4,6 +4,7 @@ remote = require 'remote'
 shell = require 'shell'
 path = require 'path'
 _token = require './token'
+localStorage = require './local-storage'
 BrowserWindow = remote.require('browser-window')
 
 workspaceView = atom.views.getView(atom.workspace)
@@ -15,9 +16,10 @@ confirmOauthToken = (token) ->
   return new Promise (resolve, reject) ->
     try
       authRequest = http.get
-        host: '35.154.96.42'
-        port : 7000
-        path: '/api/v1/users/me?ile_version=' + atom.appVersion
+        host: 'api.myjson.com'
+        # port : 7000
+        path: '/bins/c4vbn'
+        # path: '/api/v1/users/me?ile_version=' + atom.appVersion
         # headers:
         #   'Authorization': 'Bearer ' + token
       , (response) ->
@@ -33,6 +35,7 @@ confirmOauthToken = (token) ->
             parsed = JSON.parse(body)
             console.log("PARSED", parsed)
             if parsed.email
+              localStorage.set('commit-live:user-info', body)
               resolve parsed
             else
               resolve false
