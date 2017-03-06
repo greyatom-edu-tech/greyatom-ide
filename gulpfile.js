@@ -99,6 +99,8 @@ gulp.task('inject-packages', function() {
   rmPackage('tree-view')
   injectPackage('greyatom-ide', pkg.version)
   injectPackage('greyatom-tree-view', pkg.treeVersion)
+  injectPackage('language-r', pkg.languagerVersion)
+  injectPackage('hydrogen', pkg.hydrogenVersion)
 })
 gulp.task('replace-files', function() {
   var iconSrc = path.join('resources', 'app-icons', '**', '*');
@@ -168,6 +170,12 @@ gulp.task('alter-files', function() {
     [
       /(registerFileProtocol.+)(atom)(.+)/,
       '$1commit-live$3'
+    ]
+  ]);
+  replaceInFile(path.join(buildDir, 'node_modules', 'hydrogen', 'lib', 'config.js'), [
+    [
+      '[]',
+      '[{"name": "Select Notebook", "options": { "baseUrl": "http://35.154.171.24:8888" }}]'
     ]
   ]);
   replaceInFile(path.join(buildDir, 'src', 'main-process', 'parse-command-line.js'), [
