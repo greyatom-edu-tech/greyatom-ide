@@ -18,7 +18,7 @@ class Notifier extends EventEmitter
 
   activate: ->
     try
-      @socket = io.connect('http://35.154.96.42:9000', reconnect: true)
+      @socket = io.connect('http://35.154.189.94:9000', reconnect: true)
 
       @socket.on 'connect', =>
         @socket.emit 'room', @authToken
