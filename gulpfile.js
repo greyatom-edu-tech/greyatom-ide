@@ -100,7 +100,7 @@ gulp.task('inject-packages', function() {
   injectPackage('greyatom-ide', pkg.version)
   injectPackage('greyatom-tree-view', pkg.treeVersion)
   injectPackage('language-r', pkg.languagerVersion)
-  injectPackage('hydrogen', pkg.hydrogenVersion)
+  injectPackage('greyatom-hydrogen', pkg.hydrogenVersion)
 })
 gulp.task('replace-files', function() {
   var iconSrc = path.join('resources', 'app-icons', '**', '*');
