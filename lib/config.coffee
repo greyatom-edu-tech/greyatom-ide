@@ -14,6 +14,6 @@ module.exports = _.defaults
   port: process.env['IDE_WS_PORT']
   path: process.env['IDE_WS_TERM_PATH']
 ,
-  host: '35.154.96.42'
+  host: '35.154.189.94'
   port: 3000
   path: 'terminals'

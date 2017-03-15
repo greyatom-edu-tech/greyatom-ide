@@ -16,10 +16,9 @@ confirmOauthToken = (token) ->
   return new Promise (resolve, reject) ->
     try
       authRequest = http.get
-        host: 'api.myjson.com'
-        # port : 7000
-        path: '/bins/c4vbn'
-        # path: '/api/v1/users/me?ile_version=' + atom.appVersion
+        host: '35.154.189.94'
+        port : 7000
+        path: '/api/v1/users/me?ile_version=' + atom.appVersion
         # headers:
         #   'Authorization': 'Bearer ' + token
       , (response) ->
@@ -135,7 +134,7 @@ window.commitLiveSignIn = () ->
         githubLogin().then(resolve)
 
     #if not win.loadURL('https://learn.co/ide/sign_in?ide_onboard=true')
-    if not win.loadURL('http://35.154.96.42:7000/signin/')
+    if not win.loadURL('http://35.154.189.94:7000/signin/')
       win.destroy()
       #githubLogin.then(resolve)
 
