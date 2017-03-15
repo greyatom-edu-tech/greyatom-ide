@@ -3,7 +3,7 @@
   "version": "2.1.0",
   "atomVersion": "1.14.2",
   "treeVersion": "1.0.12",
-  "languagerVersion": "10.4.1",
+  "languagerVersion": "0.4.1",
   "hydrogenVersion": "1.7.0",
   "main": "./lib/commit-live",
   "urlMain": "./lib/url-handler",
