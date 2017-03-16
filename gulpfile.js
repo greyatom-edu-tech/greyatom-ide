@@ -172,12 +172,6 @@ gulp.task('alter-files', function() {
       '$1commit-live$3'
     ]
   ]);
-  replaceInFile(path.join(buildDir, 'node_modules', 'hydrogen', 'lib', 'config.js'), [
-    [
-      '[]',
-      '[{"name": "Select Notebook", "options": { "baseUrl": "http://35.154.171.24:8888" }}]'
-    ]
-  ]);
   replaceInFile(path.join(buildDir, 'src', 'main-process', 'parse-command-line.js'), [
     [
       /(urlsToOpen.+)/,
