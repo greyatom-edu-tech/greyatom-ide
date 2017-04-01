@@ -9,13 +9,13 @@ class StatusView extends View
   @content: ->
     @div class: 'learn-synced-fs-status', =>
       @div class: 'learn-status-icon inline-block icon-terminal', id: 'learn-status-icon', ' Commit Live'
-      # @div class: 'learn-popout-terminal-icon inline-block icon-link-external', id: 'learn-popout-terminal-icon'
+      @div class: 'learn-popout-terminal-icon inline-block icon-link-external', id: 'learn-popout-terminal-icon'
 
   constructor: (state, termSocket, @options) ->
     super
     @socket = termSocket
     @activateEventHandlers()
-    # @activatePopoutIcon()
+    @activatePopoutIcon()
 
   on: ->
     @emitter || (@emitter = new EventEmitter)

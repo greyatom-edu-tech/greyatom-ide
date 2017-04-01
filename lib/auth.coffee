@@ -9,18 +9,14 @@ BrowserWindow = remote.require('browser-window')
 
 workspaceView = atom.views.getView(atom.workspace)
 
-console.log "atom.appVersion"
-console.log atom.appVersion
-
 confirmOauthToken = (token) ->
   return new Promise (resolve, reject) ->
     try
       authRequest = http.get
-        host: '35.154.189.94'
-        port : 7000
-        path: '/api/v1/users/me?ile_version=' + atom.appVersion
-        # headers:
-        #   'Authorization': 'Bearer ' + token
+        host: 'api.greyatom.com'
+        path: '/v1/users/' + token
+        headers:
+          'access-token': token
       , (response) ->
         body = ''
 
@@ -32,9 +28,9 @@ confirmOauthToken = (token) ->
         response.on 'end', ->
           try
             parsed = JSON.parse(body)
-            console.log("PARSED", parsed)
-            if parsed.email
-              localStorage.set('commit-live:user-info', body)
+            console.log("parsed data form api.greyatom.com/v1/users/ => ", parsed)
+            if parsed.data.email
+              localStorage.set('commit-live:user-info', JSON.stringify(parsed.data))
               resolve parsed
             else
               resolve false
@@ -84,22 +80,19 @@ window.commitLiveSignIn = () ->
     win.setMenuBarVisibility(false)
     win.setTitle('Welcome to the Commit Live')
 
-    webContents.on 'did-finish-load', ->
-      console.log "finished loading"
-      console.log arguments
+    webContents.on 'did-finish-load', (e, url) ->
       win.show()
 
     webContents.on 'new-window', (e, url) ->
-      console.log "in new-window"
-      # e.preventDefault()
+      e.preventDefault()
       # win.destroy()
       # shell.openExternal(url)
 
     webContents.on 'will-navigate', (e, tokenUrl) ->
-      console.log "will-navigate"
+      console.log 'm at will-navigate'
       console.log tokenUrl
-      if tokenUrl.match(/ide_token/)
-        token = url.parse(tokenUrl, true).query.ide_token
+      if tokenUrl.match("access_token")
+        token = url.parse(tokenUrl, true).query.acess_token
         if token?.length
           confirmOauthToken(token).then (res) ->
             return unless res
@@ -107,34 +100,32 @@ window.commitLiveSignIn = () ->
             if atom.project and atom.project.remoteftp
               atom.project.remoteftp.connectToStudentFTP()
             resolve()
-        # console.log('TOKEN:', token)
-        # _token.set(token)
-        # resolve()
+
       # if url.match(/github_sign_in/)
         # win.destroy()
         # githubLogin().then(resolve)
 
     webContents.on 'did-get-redirect-request', (e, oldURL, newURL) ->
-      console.log("oldURL", oldURL )
-      console.log("newURL", newURL )
-      if newURL.match(/ide_token/)
-        console.log "/ide_token/"
-        token = url.parse(newURL, true).query.ide_token
-        console.log('TOKEN:', token)
-        _token.set(token)
-        resolve()
-        #if token?.length
-          #confirmOauthToken(token).then (res) ->
-          #  return unless res
-          #  _token.set(token)
-          #  resolve()
-      if newURL.match(/github_sign_in/)
-        console.log "/github_sign_in/"
-        win.destroy()
-        githubLogin().then(resolve)
+      if newURL.match("access_token")
+        token = url.parse(newURL, true).query.access_token
+        if token?.length
+          setTimeout ( ->
+            win.destroy()
+          ), 1000
+          confirmOauthToken(token).then (res) ->
+            return unless res
+            _token.set(token)
+            if atom.project and atom.project.remoteftp
+              atom.project.remoteftp.connectToStudentFTP()
+            resolve()
+
+      # if newURL.match(/github_sign_in/)
+      #   console.log "/github_sign_in/"
+      #   win.destroy()
+      #   githubLogin().then(resolve)
 
     #if not win.loadURL('https://learn.co/ide/sign_in?ide_onboard=true')
-    if not win.loadURL('http://35.154.189.94:7000/signin/')
+    if not win.loadURL('http://app.greyatom.com/login')
       win.destroy()
       #githubLogin.then(resolve)
 
@@ -189,16 +180,17 @@ githubLogout = ->
 commitliveLogout = ->
   win = new BrowserWindow(show: false)
   win.webContents.on 'did-finish-load', -> win.destroy()
-  win.loadURL('https://learn.co/sign_out')
+  # win.loadURL('https://learn.co/sign_out')
+  win.loadURL('http://localhost:7770/logout')
 
 window.logout = ->
+  console.log 'i am at window logout'
   _token.unset()
   commitliveLogout()
   githubLogout()
 
 module.exports = ->
   existingToken = _token.get()
-
   if !existingToken
     commitLiveSignIn()
   else

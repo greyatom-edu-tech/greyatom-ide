@@ -129,8 +129,7 @@ module.exports =
 
   logInOrOut: ->
     if @token.get()?
-      # @logout()
-      atomHelper.resetPackage()
+      @logout()
     else
       atomHelper.resetPackage()
 
@@ -140,10 +139,12 @@ module.exports =
     github = new BrowserWindow(show: false)
     github.webContents.on 'did-finish-load', -> github.show()
     github.loadURL('https://github.com/logout')
+    console.log "github logout done"
 
     learn = new BrowserWindow(show: false)
     learn.webContents.on 'did-finish-load', -> learn.destroy()
-    learn.loadURL('https://learn.co/sign_out')
+    learn.loadURL('http://localhost:7770/logout')
+    console.log "greatom logout done"
 
     if atom.project and atom.project.remoteftp
       atom.project.remoteftp.disconnectStudentFtp()
