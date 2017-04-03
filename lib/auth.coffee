@@ -109,9 +109,7 @@ window.commitLiveSignIn = () ->
       if newURL.match("access_token")
         token = url.parse(newURL, true).query.access_token
         if token?.length
-          setTimeout ( ->
-            win.destroy()
-          ), 1000
+          win.destroy()
           confirmOauthToken(token).then (res) ->
             return unless res
             _token.set(token)
@@ -125,7 +123,7 @@ window.commitLiveSignIn = () ->
       #   githubLogin().then(resolve)
 
     #if not win.loadURL('https://learn.co/ide/sign_in?ide_onboard=true')
-    if not win.loadURL('http://app.greyatom.com/login')
+    if not win.loadURL('http://app.greyatom.com/logout')
       win.destroy()
       #githubLogin.then(resolve)
 

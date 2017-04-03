@@ -136,7 +136,7 @@ module.exports =
   logout: ->
     @token.unset()
 
-    github = new BrowserWindow(show: false)
+    github = new BrowserWindow(show: true)
     github.webContents.on 'did-finish-load', -> github.show()
     github.loadURL('https://github.com/logout')
     console.log "github logout done"
@@ -147,6 +147,7 @@ module.exports =
     console.log "greatom logout done"
 
     if atom.project and atom.project.remoteftp
+      console.log "FTP disconnect called"
       atom.project.remoteftp.disconnectStudentFtp()
 
     atomHelper.emit('commit-live:logout')
