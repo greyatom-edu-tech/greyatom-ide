@@ -54,7 +54,9 @@ module.exports =
       token: @token.get()
 
     @termView = new TerminalView(@term, null, @isTerminalWindow)
+    @termView.sendClear()
     @termView.toggle()
+
 
   activateStatusView: (state) ->
     @statusView = new StatusView state, @term, {@isTerminalWindow}

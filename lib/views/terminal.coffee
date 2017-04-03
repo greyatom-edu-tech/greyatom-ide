@@ -98,6 +98,9 @@ class TerminalView extends View
       'commit-live:decrease-font-size': => @decreaseFontSize()
       'commit-live:reset-font-size': => @resetFontSize()
 
+  sendClear: ->
+    @terminal.send('clear \r')
+
   openLab: (path = @openPath)->
     console.log "in openLab"
     if path
