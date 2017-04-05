@@ -36,11 +36,47 @@ class Notifier extends EventEmitter
             rawData = JSON.parse(msg.data)
             console.log rawData
             if rawData.type == 'notify_ide'
-              notif = new Notification rawData.title,
-                body: rawData.message
+              if rawData.message.type == 'test_case_pass'
+                notif = new Notification rawData.title,
+                  body: 'Test cases passed successfully'
 
-              notif.onclick = ->
-                notif.close()
+                notif.onclick = ->
+                  notif.close()
+
+              if rawData.message.type == 'test_case_fail'
+                notif = new Notification rawData.title,
+                  body: 'Test cases failed'
+
+                notif.onclick = ->
+                  notif.close()
+
+              if rawData.message.type == 'completed_reading'
+                notif = new Notification rawData.title,
+                  body: rawData.message.value == 'true' ? 'Reading completed successfully' : 'Reading not completed'
+
+                notif.onclick = ->
+                  notif.close()
+
+              if rawData.message.type == 'forked'
+                notif = new Notification rawData.title,
+                  body: rawData.message.value == 'true' ? 'Lesson forked successfully' : 'Lesson forked failed'
+
+                notif.onclick = ->
+                  notif.close()
+
+              if rawData.message.type == 'submitted_pull_request'
+                notif = new Notification rawData.title,
+                  body: rawData.message.value == 'true' ? 'Pull request submitted successfully' : 'Pull request failed'
+
+                notif.onclick = ->
+                  notif.close()
+
+              if rawData.message.type == 'reviewed'
+                notif = new Notification rawData.title,
+                  body: rawData.message.value == 'true' ? 'Review completed successfully' : 'Review failed'
+
+                notif.onclick = ->
+                  notif.close()
 
             if rawData.type == 'pop_image'
               win = new BrowserWindow(

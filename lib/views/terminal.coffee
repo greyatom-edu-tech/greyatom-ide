@@ -32,7 +32,7 @@ class TerminalView extends View
 
     if @isTerminalWindow
       document.getElementsByClassName('terminal-view-resize-handle')[0].setAttribute('style', 'display:none;')
-      # document.getElementsByClassName('inset-panel')[0].setAttribute('style', 'display:none;')
+      document.getElementsByClassName('inset-panel')[0].setAttribute('style', 'display:none;')
       document.getElementsByClassName('learn-terminal')[0].style.height = '448px'
       workspaceView = atom.views.getView(atom.workspace)
       atom.commands.dispatch(workspaceView, 'tree-view:toggle')
@@ -105,7 +105,7 @@ class TerminalView extends View
     console.log "in openLab"
     if path
       console.log "in openLab path"
-      @terminal.send('greyatom open ' + path.toString() + '\r')
+      @terminal.send('clive open ' + path.toString() + '\r')
       @openPath = null
 
   onBlur: (e) ->
