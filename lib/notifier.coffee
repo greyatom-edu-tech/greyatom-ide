@@ -8,6 +8,7 @@ io = require 'socket.io-client'
 remote = require 'remote'
 localStorage = require './local-storage'
 BrowserWindow = remote.require('browser-window')
+bus = require('./event-bus')()
 
 module.exports =
 class Notifier extends EventEmitter
@@ -21,6 +22,7 @@ class Notifier extends EventEmitter
     try
       @userInfo =  JSON.parse(localStorage.get('commit-live:user-info'))
       @socket = io.connect('http://35.154.206.75:5000/' , reconnect: true)
+      bus.emit('learn:open', {timestamp: Date.now(), slug: 'test')
       @socket.on 'connect', =>
         @socket.emit 'join', room: @userInfo.username
         console.log 'socket.io is connected, listening for notification'
