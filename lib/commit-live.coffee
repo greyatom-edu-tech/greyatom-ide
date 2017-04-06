@@ -54,7 +54,7 @@ module.exports =
       token: @token.get()
 
     @termView = new TerminalView(@term, null, @isTerminalWindow)
-    @termView.sendClear()
+    # @termView.sendClear()
     @termView.toggle()
 
 
