@@ -20,6 +20,7 @@ class TerminalView extends View
     window.term = @terminalWrapper
     @panel = atom.workspace.addBottomPanel(item: this, visible: false, className: 'learn-terminal-view')
     @openPath = openPath
+    @isOpenLabActive = false
 
     @terminalWrapper.open(this.get(0))
 
@@ -99,12 +100,16 @@ class TerminalView extends View
       'commit-live:reset-font-size': => @resetFontSize()
 
   sendClear: ->
-    @terminal.send('clear \r')
+    console.log '@isOpenLabActive'
+    console.log @isOpenLabActive
+    if !@isOpenLabActive
+      @terminal.send('clear \r')
 
   openLab: (path = @openPath)->
     console.log "in openLab"
     if path
       console.log "in openLab path"
+      @isOpenLabActive = true
       @terminal.send('clive open ' + path.toString() + '\r')
       @openPath = null
 

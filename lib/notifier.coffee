@@ -52,28 +52,28 @@ class Notifier extends EventEmitter
 
               if rawData.message.type == 'completed_reading'
                 notif = new Notification rawData.title,
-                  body: rawData.message.value == 'true' ? 'Reading completed successfully' : 'Reading not completed'
+                  body: if rawData.message.value == 'true' then 'Reading completed successfully' else 'Reading not completed'
 
                 notif.onclick = ->
                   notif.close()
 
               if rawData.message.type == 'lesson_forked'
                 notif = new Notification rawData.title,
-                  body: rawData.message.value == 'true' ? 'Lesson forked successfully' : 'Lesson forked failed'
+                  body: if rawData.message.value == 'true' then  'Forked successfully' else 'Forked failed'
 
                 notif.onclick = ->
                   notif.close()
 
               if rawData.message.type == 'submitted_pull_request'
                 notif = new Notification rawData.title,
-                  body: rawData.message.value == 'true' ? 'Pull request submitted successfully' : 'Pull request failed'
+                  body: if rawData.message.value == 'true' then 'Pull request submitted successfully' else 'Pull request failed'
 
                 notif.onclick = ->
                   notif.close()
 
               if rawData.message.type == 'reviewed'
                 notif = new Notification rawData.title,
-                  body: rawData.message.value == 'true' ? 'Review completed successfully' : 'Review failed'
+                  body: if rawData.message.value == 'true' then 'Review completed successfully' else 'Review failed'
 
                 notif.onclick = ->
                   notif.close()
