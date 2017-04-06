@@ -57,7 +57,7 @@ class Notifier extends EventEmitter
                 notif.onclick = ->
                   notif.close()
 
-              if rawData.message.type == 'forked'
+              if rawData.message.type == 'lesson_forked'
                 notif = new Notification rawData.title,
                   body: rawData.message.value == 'true' ? 'Lesson forked successfully' : 'Lesson forked failed'
 
