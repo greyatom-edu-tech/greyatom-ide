@@ -8,12 +8,10 @@ getLabSlug = ->
   url.parse(urlToOpen).pathname.substring(1)
 
 openInNewWindow = ->
-  console.log "in url openInNewWindow"
   localStorage.set('commitLiveOpenLabOnActivation', getLabSlug())
   ipcRenderer.send('command', 'application:new-window')
 
 openInExistingWindow = ->
-  console.log "in url openInExistingWindow"
   bus.emit('learn:open', {timestamp: Date.now(), slug: getLabSlug()})
 
 windowOpen = ->

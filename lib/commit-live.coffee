@@ -17,7 +17,6 @@ module.exports =
   token: require('./token')
 
   activate: (state) ->
-    console.log 'activating Commit Live'
     @checkForV1WindowsInstall()
     @registerWindowsProtocol()
     # @disableFormerPackage()
@@ -25,13 +24,14 @@ module.exports =
     @subscriptions = new CompositeDisposable
     @subscribeToLogin()
 
-    @waitForAuth = auth().then =>
+    atom.project.commitLiveIde = activateIde: =>
+      console.log('tree connected => activating Commit Live')
       @activateIDE(state)
+
+    @waitForAuth = auth().then =>
       console.log('successfully authenticated')
     .catch =>
-      console.log 'catch'
-      # @activateIDE(state)
-      console.error('failed to authenticate')
+      console.error('Failed to authenticate')
 
   activateIDE: (state) ->
     @isTerminalWindow = (localStorage.get('popoutTerminal') == 'true')
@@ -55,7 +55,6 @@ module.exports =
       token: @token.get()
 
     @termView = new TerminalView(@term, null, @isTerminalWindow)
-    # @termView.sendClear()
     @termView.toggle()
 
 
@@ -128,7 +127,7 @@ module.exports =
 
   consumeStatusBar: (statusBar) ->
     @waitForAuth.then =>
-      statusBar.addRightTile(item: @statusView, priority: 5000)
+      # statusBar.addRightTile(item: @statusView, priority: 5000)
 
   logInOrOut: ->
     if @token.get()?
