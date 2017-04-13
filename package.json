@@ -2,7 +2,7 @@
   "name": "greyatom-ide",
   "version": "2.3.8",
   "atomVersion": "1.14.2",
-  "treeVersion": "1.2.3",
+  "treeVersion": "1.2.5",
   "languagerVersion": "0.4.1",
   "hydrogenVersion": "1.7.0",
   "main": "./lib/commit-live",
