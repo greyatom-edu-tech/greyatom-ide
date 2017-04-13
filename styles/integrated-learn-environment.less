@@ -1,26 +1,51 @@
 @import "ui-variables";
 
 .learn-terminal-view {
+  position:   relative;
+  width:      100%;
+  box-sizing: content-box;
+  border-top: 2px solid @tool-panel-background-color;
+  z-index: 5;
   .terminal-view-resize-handle {
     height: 4px;
 
     &:hover {
       cursor: row-resize;
     }
+
+    &> input {
+        position: absolute;
+        z-index: -1;
+        opacity: 0;
+    }
   }
 
   .learn-terminal {
-    height: 318px;
+    // height: 318px;
+    width: 100%;
+    height: 100%;
   }
 
   .terminal {
+    float: none !important;
     padding: 4px;
     font-size: 12px;
     font-family: Inconsolata, Monaco, Consolas, 'Courier New', Courier;
     whiteSpace: nowrap;
 
+    overflow-y: hidden;
+    overflow-x: hidden;
+
+    line-height: ~"calc(1em " ~"+ 2px)";
+
     .terminal-cursor {
       background-color: #fff;
+    }
+
+    &> div {
+        white-space: nowrap;
+        height: ~"calc(1em " ~"+ 2px)";
+        line-height: ~"calc(1em " ~"+ 2px)";
     }
   }
 }

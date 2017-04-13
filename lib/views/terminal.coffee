@@ -19,6 +19,10 @@ class TerminalView extends View
     @terminalWrapper = new TerminalWrapper(cols: 80, rows: rows, useStyle: no, screenKeys: no, scrollback: yes)
     window.term = @terminalWrapper
     @panel = atom.workspace.addBottomPanel(item: this, visible: false, className: 'learn-terminal-view')
+
+    @panelView = $(atom.views.getView(@panel))
+    @panelView.attr('data-height', '290px')
+
     @openPath = openPath
     @isOpenLabActive = false
 
