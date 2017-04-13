@@ -26,7 +26,7 @@ class Notifier extends EventEmitter
         console.log 'socket.io is connected, listening for notification'
 
       @socket.on 'my_response', (msg) ->
-        console.log 'msg from websocket'
+        console.log "Got message from websocket server :)"
         console.log msg
         if msg.data == 'ping'
           console.log "Got ping packet from websocket server :)"
