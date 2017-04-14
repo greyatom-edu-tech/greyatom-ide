@@ -28,7 +28,8 @@ confirmOauthToken = (token) ->
         response.on 'end', ->
           try
             parsed = JSON.parse(body)
-            console.log("parsed data form api.greyatom.com/v1/users/ => ", parsed)
+            console.log("parsed data form api.greyatom.com/v1/users/")
+            console.log parsed
             if parsed.data.email
               localStorage.set('commit-live:user-info', JSON.stringify(parsed.data))
               resolve parsed
