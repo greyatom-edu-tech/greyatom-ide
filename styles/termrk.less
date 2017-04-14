@@ -1,0 +1,63 @@
+@background-color-selected: white;
+
+@import "ui-variables";
+
+atom-panel.bottom.termrk-panel {
+    position:   relative;
+    width:      100%;
+    box-sizing: content-box;
+    border-top: 2px solid @tool-panel-background-color;
+    z-index: 5;
+}
+
+.termrk-container {
+    width:            100%;
+    height:           100%;
+}
+
+.termrk {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+    transform: translate3d(0, 0, 0);
+
+    *::selection {
+        background: fade(@background-color-selected, 99%);
+    }
+
+    .terminal {
+        display: inline-block;
+        // box-sizing: content-box;
+        float: none !important;
+        border: none;
+        padding: 0 5px;
+
+        overflow-y: hidden;
+        overflow-x: hidden;
+
+        height: 100%;
+        line-height: ~"calc(1em " ~"+ 2px)";
+        &> div {
+            white-space: nowrap;
+            height: ~"calc(1em " ~"+ 2px)";
+            line-height: ~"calc(1em " ~"+ 2px)";
+        }
+
+        font-size: 14px;
+        font-family: monospace,"Monospace";
+
+        color:            #f0f0f0;
+        background-color: #000000;
+    }
+
+    .terminal-cursor {
+        color:            #000000;
+        background-color: #f0f0f0;
+    }
+
+    &> input {
+        position: absolute;
+        z-index: -1;
+        opacity: 0;
+    }
+}
