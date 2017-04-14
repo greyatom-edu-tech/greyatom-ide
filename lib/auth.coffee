@@ -89,34 +89,34 @@ window.commitLiveSignIn = () ->
       # win.destroy()
       # shell.openExternal(url)
 
-    webContents.on 'will-navigate', (e, tokenUrl) ->
-      console.log 'm at will-navigate'
-      console.log tokenUrl
-      if tokenUrl.match("access_token")
-        token = url.parse(tokenUrl, true).query.acess_token
-        if token?.length
-          confirmOauthToken(token).then (res) ->
-            return unless res
-            _token.set(token)
-            if atom.project and atom.project.remoteftp
-              atom.project.remoteftp.connectToStudentFTP()
-            resolve()
-
-      # if url.match(/github_sign_in/)
-        # win.destroy()
-        # githubLogin().then(resolve)
-
-    # webContents.on 'did-get-redirect-request', (e, oldURL, newURL) ->
-    #   if newURL.match("access_token")
-    #     token = url.parse(newURL, true).query.access_token
+    # webContents.on 'will-navigate', (e, tokenUrl) ->
+    #   console.log 'm at will-navigate'
+    #   console.log tokenUrl
+    #   if tokenUrl.match("access_token")
+    #     token = url.parse(tokenUrl, true).query.acess_token
     #     if token?.length
-    #       win.destroy()
     #       confirmOauthToken(token).then (res) ->
     #         return unless res
     #         _token.set(token)
     #         if atom.project and atom.project.remoteftp
     #           atom.project.remoteftp.connectToStudentFTP()
     #         resolve()
+
+      # if url.match(/github_sign_in/)
+        # win.destroy()
+        # githubLogin().then(resolve)
+
+    webContents.on 'did-get-redirect-request', (e, oldURL, newURL) ->
+      if newURL.match("access_token")
+        token = url.parse(newURL, true).query.access_token
+        if token?.length
+          win.destroy()
+          confirmOauthToken(token).then (res) ->
+            return unless res
+            _token.set(token)
+            if atom.project and atom.project.remoteftp
+              atom.project.remoteftp.connectToStudentFTP()
+            resolve()
 
       # if newURL.match(/github_sign_in/)
       #   console.log "/github_sign_in/"
