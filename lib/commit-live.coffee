@@ -26,10 +26,11 @@ module.exports =
 
     atom.project.commitLiveIde = activateIde: =>
       console.log('tree connected => activating Commit Live')
-      @activateIDE(state)
+      # @activateIDE(state)
 
     @waitForAuth = auth().then =>
       console.log('successfully authenticated')
+      @activateIDE(state)
     .catch =>
       console.error('Failed to authenticate')
 
@@ -127,7 +128,7 @@ module.exports =
 
   consumeStatusBar: (statusBar) ->
     @waitForAuth.then =>
-      # statusBar.addRightTile(item: @statusView, priority: 5000)
+      statusBar.addRightTile(item: @statusView, priority: 5000)
 
   logInOrOut: ->
     if @token.get()?
