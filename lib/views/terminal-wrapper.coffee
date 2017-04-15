@@ -19,7 +19,8 @@ class TerminalWrapper extends Terminal
 
   fit: ->
     {cols, rows} = @_proposeGeometry()
-    @_resize(cols, rows)
+    # @_resize(cols, rows)
+    @_resize(80, rows)
 
   ###
   * Private methods pulled from https://github.com/sourcelair/xterm.js
