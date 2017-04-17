@@ -47,6 +47,8 @@ module.exports = class Terminal extends EventEmitter
   reset: ->
     console.log('term:reset')
     @socket.reset()
+    if atom.project and atom.project.remoteftp
+      atom.project.remoteftp.connectToStudentFTP()
 
   send: (msg) ->
     if @waitForSocket
