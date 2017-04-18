@@ -12,6 +12,7 @@ openInNewWindow = ->
   ipcRenderer.send('command', 'application:new-window')
 
 openInExistingWindow = ->
+  console.log 'm at openInExistingWindow'
   bus.emit('learn:open', {timestamp: Date.now(), slug: getLabSlug()})
 
 windowOpen = ->
