@@ -105,11 +105,14 @@ class TerminalView extends View
 
   sendClear: ->
     console.log 'm at sendClear'
-    if !@isOpenLabActive
-      @terminal.send('clear \r')
+    setTimeout (=>
+      if !@isOpenLabActive
+        @terminal.send('clear \r')
+    ), 1000
 
   openLab: (path = @openPath)->
     console.log 'm at openLab'
+    console.log path
     if path
       @isOpenLabActive = true
       @terminal.send('clive open ' + path.toString() + '\r')

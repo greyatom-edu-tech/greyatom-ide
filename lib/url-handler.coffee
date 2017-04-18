@@ -4,6 +4,7 @@ localStorage = require './local-storage'
 bus = require('./event-bus')()
 
 getLabSlug = ->
+  console.log 'm at getLabSlug'
   {urlToOpen} = JSON.parse(decodeURIComponent(location.hash.substr(1)))
   url.parse(urlToOpen).pathname.substring(1)
 
