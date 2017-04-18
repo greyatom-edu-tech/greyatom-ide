@@ -47,7 +47,7 @@ module.exports =
     @activateSubscriptions()
     @activateNotifier()
     # @activateUpdater()
-    @termView.sendClear()
+    # @termView.sendClear()
 
   activateTerminal: ->
     @term = new Terminal
