@@ -17,6 +17,7 @@ module.exports =
   token: require('./token')
 
   activate: (state) ->
+    console.log 'Activating Commit Live IDE'
     @checkForV1WindowsInstall()
     @registerWindowsProtocol()
     # @disableFormerPackage()

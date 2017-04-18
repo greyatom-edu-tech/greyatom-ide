@@ -104,10 +104,12 @@ class TerminalView extends View
       'commit-live:reset-font-size': => @resetFontSize()
 
   sendClear: ->
+    console.log 'm at sendClear'
     if !@isOpenLabActive
       @terminal.send('clear \r')
 
   openLab: (path = @openPath)->
+    console.log 'm at openLab'
     if path
       @isOpenLabActive = true
       @terminal.send('clive open ' + path.toString() + '\r')
