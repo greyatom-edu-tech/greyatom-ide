@@ -20,7 +20,7 @@ class Notifier extends EventEmitter
   activate: ->
     try
       @userInfo =  JSON.parse(localStorage.get('commit-live:user-info'))
-      @socket = io.connect('http://35.154.206.75:5000/' , reconnect: true)
+      @socket = io.connect(@userInfo.servers.notification , reconnect: true)
       @socket.on 'connect', =>
         @socket.emit 'join', room: @userInfo.username
         console.log 'socket.io is connected, listening for notification'

@@ -12,12 +12,13 @@ config = require './config'
 auth = require './auth'
 remote = require 'remote'
 BrowserWindow = remote.require('browser-window')
+localStorage = require './local-storage'
 
 module.exports =
   token: require('./token')
 
   activate: (state) ->
-    console.log 'Activating Commit Live IDE'
+    console.log 'Activating Commit.Live IDE'
     @checkForV1WindowsInstall()
     @registerWindowsProtocol()
     # @disableFormerPackage()
@@ -26,11 +27,12 @@ module.exports =
     @subscribeToLogin()
 
     atom.project.commitLiveIde = activateIde: =>
-      console.log('tree connected => activating Commit Live')
+      console.log('tree connected now activating Commit.Live IDE')
       # @activateIDE(state)
 
     @waitForAuth = auth().then =>
       console.log('successfully authenticated')
+      @studentServer =  JSON.parse(localStorage.get('commit-live:user-info')).servers.student
       @activateIDE(state)
     .catch =>
       console.error('Failed to authenticate')
@@ -51,14 +53,13 @@ module.exports =
 
   activateTerminal: ->
     @term = new Terminal
-      host: config.host
-      port: config.port
-      path: config.path
+      host: @studentServer.host
+      port: @studentServer.port
+      path: @studentServer.terminal_path
       token: @token.get()
 
     @termView = new TerminalView(@term, null, @isTerminalWindow)
     @termView.toggle()
-
 
   activateStatusView: (state) ->
     @statusView = new StatusView state, @term, {@isTerminalWindow}

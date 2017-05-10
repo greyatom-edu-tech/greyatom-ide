@@ -10,10 +10,8 @@ require('dotenv').config
   silent: true
 
 module.exports = _.defaults
-  host: process.env['IDE_WS_HOST']
-  port: process.env['IDE_WS_PORT']
-  path: process.env['IDE_WS_TERM_PATH']
+  commitLive: process.env['IDE_COMMIT_LIVE']
+  commitLiveApi: process.env['IDE_COMMIT_LIVE_API']
 ,
-  host: '35.154.189.94'
-  port: 3000
-  path: 'terminals'
+  commitLive: 'http://app.greyatom.com'
+  commitLiveApi: 'http://api.greyatom.com'
