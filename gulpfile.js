@@ -94,13 +94,14 @@ gulp.task('inject-packages', function() {
     packages.packageDependencies[name] = version
     fs.writeFileSync(packageJSON, JSON.stringify(packages, null, '  '))
   }
+
   var pkg = require('./package.json')
   rmPackage('welcome')
   rmPackage('tree-view')
-  injectPackage('greyatom-ide', pkg.version)
-  injectPackage('greyatom-tree-view', pkg.treeVersion)
-  injectPackage('language-r', pkg.languagerVersion)
-  injectPackage('greyatom-hydrogen', pkg.hydrogenVersion)
+  injectPackage(pkg.name, pkg.version)
+  _.each(pkg.packageDependencies, (version, name) => {
+    injectPackage(name, version)
+  })
 })
 gulp.task('replace-files', function() {
   var iconSrc = path.join('resources', 'app-icons', '**', '*');

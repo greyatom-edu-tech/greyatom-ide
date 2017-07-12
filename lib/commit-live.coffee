@@ -48,7 +48,7 @@ module.exports =
     @activateEventHandlers()
     @activateSubscriptions()
     @activateNotifier()
-    # @activateUpdater()
+    @activateUpdater()
     @termView.sendClear()
 
   activateTerminal: ->
@@ -111,8 +111,7 @@ module.exports =
       @notifier.activate()
 
   activateUpdater: ->
-    @updater = new Updater(true)
-    @updater.checkForUpdate()
+    Updater.checkForUpdate()
 
   deactivate: ->
     localStorage.delete('disableTreeView')
