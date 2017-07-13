@@ -183,6 +183,20 @@ gulp.task('alter-files', function() {
       "options.string('url-to-open')\n  $1"
     ]
   ]);
+  replaceInFile(path.join(buildDir, 'src', 'config-schema.js'), [
+    [
+      "automaticallyUpdate: {\n        description: 'Automatically update Atom when a new release is available.',\n        type: 'boolean',\n        default: true\n      }",
+      "automaticallyUpdate: {\n        description: 'Automatically update Atom when a new release is available.',\n        type: 'boolean',\n        default: false\n      }",
+    ],
+    [
+      "openEmptyEditorOnStart: {\n        description: 'When checked opens an untitled editor when loading a blank environment (such as with _File > New Window_ or when \"Restore Previous Windows On Start\" is unchecked); otherwise no editor is opened when loading a blank environment. This setting has no effect when restoring a previous state.',\n        type: 'boolean',\n        default: true",
+      "openEmptyEditorOnStart: {\n        description: 'When checked opens an untitled editor when loading a blank environment (such as with _File > New Window_ or when \"Restore Previous Windows On Start\" is unchecked); otherwise no editor is opened when loading a blank environment. This setting has no effect when restoring a previous state.',\n        type: 'boolean',\n        default: false"
+    ],
+    [
+      "restorePreviousWindowsOnStart: {\n        description: 'When checked restores the last state of all Atom windows when started from the icon or `atom` by itself from the command line; otherwise a blank environment is loaded.',\n        type: 'boolean',\n        default: true",
+      "restorePreviousWindowsOnStart: {\n        description: 'When checked restores the last state of all Atom windows when started from the icon or `atom` by itself from the command line; otherwise a blank environment is loaded.',\n        type: 'boolean',\n        default: false"
+    ]
+  ]);
 })
 gulp.task('update-package-json', function() {
   var packageJSON = path.join(buildDir, 'package.json')

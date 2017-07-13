@@ -37,7 +37,7 @@
     "utf8": "2.1.1"
   },
   "packageDependencies": {
-    "greyatom-tree-view": "1.2.10"
+    "greyatom-tree-view": "1.2.11"
   },
   "configSchema": {
     "notifier": {
