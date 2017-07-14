@@ -43,6 +43,10 @@ module.exports =
       window.resizeTo(750, 500)
       localStorage.delete('popoutTerminal')
 
+    @isRestartAfterUpdate = (localStorage.get('restartingForUpdate') == 'true')
+    if @isRestartAfterUpdate
+      Updater.didRestartAfterUpdate()
+
     @activateTerminal()
     @activateStatusView(state)
     @activateEventHandlers()
@@ -111,7 +115,8 @@ module.exports =
       @notifier.activate()
 
   activateUpdater: ->
-    Updater.checkForUpdate()
+    if !@isRestartAfterUpdate
+      Updater.checkForUpdate()
 
   deactivate: ->
     localStorage.delete('disableTreeView')
