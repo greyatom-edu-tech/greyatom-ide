@@ -46,6 +46,7 @@ module.exports =
     @isRestartAfterUpdate = (localStorage.get('restartingForUpdate') == 'true')
     if @isRestartAfterUpdate
       Updater.didRestartAfterUpdate()
+      localStorage.delete('restartingForUpdate')
 
     @activateTerminal()
     @activateStatusView(state)
