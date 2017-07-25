@@ -16,3 +16,6 @@
   'ctrl-+': 'commit-live:increase-font-size'
   'ctrl-_': 'commit-live:decrease-font-size'
   'ctrl-0': 'commit-live:reset-font-size'
+
+'.platform-win32, .platform-linux':
+  'ctrl-i': 'commit-live:toggle-terminal'
