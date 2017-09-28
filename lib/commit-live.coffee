@@ -61,6 +61,7 @@ module.exports =
       host: @studentServer.host
       port: @studentServer.port
       path: @studentServer.terminal_path
+      id: @token.getID()
       token: @token.get()
 
     @termView = new TerminalView(@term, null, @isTerminalWindow)
@@ -145,6 +146,7 @@ module.exports =
 
   logout: ->
     @token.unset()
+    @token.unsetID()
 
     github = new BrowserWindow(show: true)
     github.webContents.on 'did-finish-load', -> github.show()

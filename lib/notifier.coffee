@@ -36,21 +36,21 @@ class Notifier extends EventEmitter
             rawData = JSON.parse(msg.data)
             console.log rawData
             if rawData.type == 'notify_ide'
-              if rawData.message.type == 'test_case_pass'
+              if rawData.message.type == 'testCasesPassed'
                 notif = new Notification rawData.title,
                   body: 'Test cases passed successfully'
 
                 notif.onclick = ->
                   notif.close()
 
-              if rawData.message.type == 'test_case_fail'
+              if rawData.message.type == 'testCasesFailed'
                 notif = new Notification rawData.title,
                   body: 'Test cases failed'
 
                 notif.onclick = ->
                   notif.close()
 
-              if rawData.message.type == 'completed_reading'
+              if rawData.message.type == 'completedReading'
                 notif = new Notification rawData.title,
                   body: if rawData.message.value == 'true' then 'Reading completed successfully' else 'Reading not completed'
 
@@ -64,7 +64,7 @@ class Notifier extends EventEmitter
                 notif.onclick = ->
                   notif.close()
 
-              if rawData.message.type == 'submitted_pull_request'
+              if rawData.message.type == 'submittedPr'
                 notif = new Notification rawData.title,
                   body: if rawData.message.value == 'true' then 'Pull request submitted successfully' else 'Pull request failed'
 

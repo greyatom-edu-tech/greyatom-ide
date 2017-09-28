@@ -8,10 +8,14 @@ localStorage = require './local-storage'
 {commitLive, commitLiveApi} = require './config'
 {BrowserWindow} = require 'remote'
 
-confirmOauthToken = (token) ->
-  headers = new Headers({'access-token': token })
-  AUTH_URL = "#{commitLiveApi}/v1/users/#{token}"
+confirmOauthToken = (token,userId) ->
+  headers = new Headers(
+    {'Authorization': token }
+  )
+  AUTH_URL = "#{commitLiveApi}/users/#{userId}"
   fetch(AUTH_URL, {headers}).then (response) ->
+    console.log 'response'
+    console.log response
     if response.data.email
       localStorage.set('commit-live:user-info', JSON.stringify(response.data))
       return response
@@ -73,13 +77,16 @@ commitLiveSignIn = () ->
     #     githubLogin().then(resolve)
 
     webContents.on 'did-get-redirect-request', (e, oldURL, newURL) ->
-      if newURL.match("access_token")
-        token = url.parse(newURL, true).query.access_token
+      if newURL.match("accessToken")
+        console.log "m here "
+        token = url.parse(newURL, true).query.accessToken
+        userId = url.parse(newURL, true).query.userId
         if token?.length
           win.destroy()
-          confirmOauthToken(token).then (res) ->
+          confirmOauthToken(token,userId).then (res) ->
             return unless res
             _token.set(token)
+            _token.setID(userId)
             if atom.project and atom.project.remoteftp
               atom.project.remoteftp.connectToStudentFTP()
             resolve()
@@ -93,10 +100,11 @@ commitLiveSignIn = () ->
 
 module.exports = ->
   existingToken = _token.get()
+  existingId = _token.getID()
 
   if !existingToken
     commitLiveSignIn()
   else
-    confirmOauthToken(existingToken).then =>
+    confirmOauthToken(existingToken,existingId).then =>
       if atom.project and atom.project.remoteftp
         atom.project.remoteftp.connectToStudentFTP()

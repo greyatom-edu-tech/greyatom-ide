@@ -13,5 +13,5 @@ module.exports = _.defaults
   commitLive: process.env['IDE_COMMIT_LIVE']
   commitLiveApi: process.env['IDE_COMMIT_LIVE_API']
 ,
-  commitLive: 'http://app.commit.live'
-  commitLiveApi: 'https://api.commit.live'
+  commitLive: 'http://app.greyatom.com'
+  commitLiveApi: 'http://api.greyatom.com/v2'
