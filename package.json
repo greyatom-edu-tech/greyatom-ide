@@ -38,7 +38,7 @@
     "utf8": "2.1.1"
   },
   "packageDependencies": {
-    "greyatom-tree-view": "1.3.9",
+    "greyatom-tree-view": "1.3.10",
     "tablr": "1.8.3"
   },
   "configSchema": {
