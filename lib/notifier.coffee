@@ -7,7 +7,7 @@ path = require 'path'
 io = require 'socket.io-client'
 remote = require 'remote'
 localStorage = require './local-storage'
-BrowserWindow = remote.require('browser-window')
+BrowserWindow = remote.BrowserWindow
 
 module.exports =
 class Notifier extends EventEmitter
