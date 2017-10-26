@@ -25,6 +25,8 @@ module.exports = class Terminal extends EventEmitter
 
     @waitForSocket = new Promise (resolve, reject) =>
       @socket.on 'open', =>
+        if atom.project and atom.project.remoteftp
+          atom.project.remoteftp.connectToStudentFTP()
         @emit 'open'
         resolve()
 
@@ -36,6 +38,8 @@ module.exports = class Terminal extends EventEmitter
         @emit 'message', message
 
       @socket.on 'close', =>
+        if atom.project and atom.project.remoteftp
+          atom.project.remoteftp.disconnectStudentFtp()
         @emit 'close'
 
       @socket.on 'error', (e) =>
@@ -50,8 +54,6 @@ module.exports = class Terminal extends EventEmitter
   reset: ->
     console.log('term:reset')
     @socket.reset()
-    if atom.project and atom.project.remoteftp
-      atom.project.remoteftp.connectToStudentFTP()
 
   send: (msg) ->
     if @waitForSocket
