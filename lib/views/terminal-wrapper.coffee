@@ -17,6 +17,9 @@ class TerminalWrapper extends Terminal
     if out
       Terminal.prototype.write.call(this, out)
 
+  showConnecting: () ->
+    Terminal.prototype.write.call(this, 'Connecting...')
+
   fit: ->
     {cols, rows} = @_proposeGeometry()
     # @_resize(cols, rows)

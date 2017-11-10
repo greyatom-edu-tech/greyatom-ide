@@ -5,6 +5,7 @@ TerminalView = require './views/terminal'
 StatusView = require './views/status'
 {EventEmitter} = require 'events'
 Updater = require './updater'
+ProjectSearch = require './project-search'
 bus = require('./event-bus')()
 Notifier = require './notifier'
 atomHelper = require './atom-helper'
@@ -13,6 +14,8 @@ auth = require './auth'
 remote = require 'remote'
 BrowserWindow = remote.BrowserWindow
 localStorage = require './local-storage'
+
+toolBar = null;
 
 module.exports =
   token: require('./token')
@@ -25,17 +28,22 @@ module.exports =
 
     @subscriptions = new CompositeDisposable
     @subscribeToLogin()
+    # atom.config.set('tool-bar.visible', false)
 
     atom.project.commitLiveIde = activateIde: =>
       console.log('tree connected now activating Commit.Live IDE')
-      # @activateIDE(state)
-
-    @waitForAuth = auth().then =>
-      console.log('successfully authenticated')
-      @studentServer =  JSON.parse(localStorage.get('commit-live:user-info')).servers.student
       @activateIDE(state)
-    .catch =>
-      console.error('Failed to authenticate')
+
+    @waitForAuth = auth()
+    @subscriptions.add atom.commands.add 'atom-workspace',
+      'commit-live:connect-to-project': () =>
+        auth().then =>
+          @studentServer = JSON.parse(localStorage.get('commit-live:user-info')).servers.student
+          if atom.project and atom.project.remoteftp
+            atom.project.remoteftp.removeConfigFiles()
+            atom.project.remoteftp.connectToStudentFTP()
+
+    @projectSearch = new ProjectSearch()
 
   activateIDE: (state) ->
     @isTerminalWindow = (localStorage.get('popoutTerminal') == 'true')
@@ -110,7 +118,6 @@ module.exports =
       localStorage.delete('commitLiveOpenLabOnActivation')
       @termView.openLab(openPath)
 
-
   activateNotifier: ->
     if atom.config.get('greyatom-ide.notifier')
       @notifier = new Notifier(@token.get())
@@ -126,6 +133,10 @@ module.exports =
     @termView = null
     @statusView = null
     @subscriptions.dispose()
+    @projectSearch.destroy()
+    # if toolBar
+    #   toolBar.removeItems();
+    #   toolBar = null;
 
   subscribeToLogin: ->
     @subscriptions.add atom.commands.add 'atom-workspace',
@@ -134,9 +145,30 @@ module.exports =
   cleanup: ->
     atomHelper.cleanup()
 
+  consumeToolBar: (getToolBar) ->
+    # toolBar = getToolBar('greyatom-ide');
+    # toolBar.addButton({
+    #   icon: 'play',
+    #   callback: 'application:about',
+    #   tooltip: 'Test',
+    #   iconset: 'fa'
+    # })
+    # toolBar.addButton({
+    #   icon: 'eject',
+    #   callback: 'application:about',
+    #   tooltip: 'Submit',
+    #   iconset: 'fa'
+    # })
+    # toolBar.addButton({
+    #   icon: 'exchange',
+    #   callback: 'commit-live:get-all-projects',
+    #   tooltip: 'Switch Project',
+    #   iconset: 'fa'
+    # })
+
   consumeStatusBar: (statusBar) ->
-    @waitForAuth.then =>
-      statusBar.addRightTile(item: @statusView, priority: 5000)
+    # @waitForAuth.then =>
+    #   statusBar.addRightTile(item: @statusView, priority: 5000)
 
   logInOrOut: ->
     if @token.get()?

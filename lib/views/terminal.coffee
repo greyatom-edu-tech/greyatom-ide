@@ -32,7 +32,7 @@ class TerminalView extends View
 
     @applyEditorStyling()
     @handleEvents()
-    @terminalWrapper.restore()
+    @terminalWrapper.showConnecting()
     @terminalWrapper.showCursor()
 
     if @isTerminalWindow

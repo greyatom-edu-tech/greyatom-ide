@@ -7,6 +7,7 @@ _token = require './token'
 localStorage = require './local-storage'
 {commitLive, commitLiveApi} = require './config'
 {BrowserWindow} = require 'remote'
+{Notification} = require 'atom'
 
 confirmOauthToken = (token,userId) ->
   headers = new Headers(
@@ -105,6 +106,11 @@ module.exports = ->
   if !existingToken
     commitLiveSignIn()
   else
+    authPopup = new Notification("info", "Commit Live IDE: Authenticating...", {dismissable: true})
+    atom.notifications.addNotification(authPopup);
     confirmOauthToken(existingToken,existingId).then =>
-      if atom.project and atom.project.remoteftp
-        atom.project.remoteftp.connectToStudentFTP()
+      authPopup.dismiss()
+      setTimeout ->
+        atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live-welcome:show')
+        atom.notifications.addSuccess 'Commit Live IDE: You have successfully logged in.'
+      , 0

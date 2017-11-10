@@ -1,6 +1,7 @@
 '.platform-darwin':
   'cmd-i': 'commit-live:toggle-terminal'
   'cmd-;': 'commit-live:toggle-focus'
+  'cmd-o': 'commit-live:project-search'
 
 '.platform-darwin .learn-terminal':
   'cmd-c': 'commit-live:copy'
@@ -19,3 +20,4 @@
 
 '.platform-win32, .platform-linux':
   'ctrl-i': 'commit-live:toggle-terminal'
+  'ctrl-o': 'commit-live:project-search'
