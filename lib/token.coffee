@@ -23,6 +23,9 @@ module.exports = token = {
   getID: ->
     localStorage.get(ID_KEY)
 
+  getInstanceID: ->
+    JSON.parse(localStorage.get('commit-live:user-info')).instanceId
+
   setID: (value) ->
     localStorage.set(ID_KEY, value)
     bus.emit(ID_KEY, value)

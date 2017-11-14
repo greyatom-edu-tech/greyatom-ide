@@ -15,7 +15,7 @@ confirmOauthToken = (token,userId) ->
   )
   AUTH_URL = "#{commitLiveApi}/users/#{userId}"
   fetch(AUTH_URL, {headers}).then (response) ->
-    console.log 'response'
+    console.log 'Get User Response'
     console.log response
     if response.data.email
       localStorage.set('commit-live:user-info', JSON.stringify(response.data))

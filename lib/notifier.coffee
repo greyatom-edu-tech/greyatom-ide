@@ -23,18 +23,18 @@ class Notifier extends EventEmitter
       @socket = io.connect(@userInfo.servers.notification , reconnect: true)
       @socket.on 'connect', =>
         @socket.emit 'join', room: @userInfo.username
-        console.log 'socket.io is connected, listening for notification'
+        # console.log 'socket.io is connected, listening for notification'
 
       @socket.on 'my_response', (msg) ->
-        console.log "Got message from websocket server :)"
-        console.log msg
-        if msg.data == 'ping'
-          console.log "Got ping packet from websocket server :)"
+        # console.log "Got message from websocket server :)"
+        # console.log msg
+        # if msg.data == 'ping'
+        #   console.log "Got ping packet from websocket server :)"
 
         if msg.data != 'ping'
           try
             rawData = JSON.parse(msg.data)
-            console.log rawData
+            # console.log rawData
             if rawData.type == 'notify_ide'
               if rawData.message.type == 'testCasesPassed'
                 notif = new Notification rawData.title,

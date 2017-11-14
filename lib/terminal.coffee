@@ -21,7 +21,8 @@ module.exports = class Terminal extends EventEmitter
     @connect()
 
   connect: (token) ->
-    @socket = new AtomSocket('term', @url())
+    keyName = 'term' + Date.now()
+    @socket = new AtomSocket(keyName, @url())
 
     @waitForSocket = new Promise (resolve, reject) =>
       @socket.on 'open', =>
@@ -43,12 +44,9 @@ module.exports = class Terminal extends EventEmitter
 
   url: ->
     protocol = if @port == 443 then 'wss' else 'ws'
-    console.log ">>>>>>>>>>>>>>>>>>>>>>>>"
-    console.log "#{protocol}://#{@host}:#{@port}/#{@path}/#{@id}/#{@token}"
     "#{protocol}://#{@host}:#{@port}/#{@path}/#{@id}/#{@token}"
 
   reset: ->
-    console.log('term:reset')
     @socket.reset()
 
   send: (msg) ->

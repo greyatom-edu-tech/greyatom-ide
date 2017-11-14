@@ -10,6 +10,7 @@ bus = require('./event-bus')()
 Notifier = require './notifier'
 atomHelper = require './atom-helper'
 config = require './config'
+startInstance = require './instance'
 auth = require './auth'
 remote = require 'remote'
 BrowserWindow = remote.BrowserWindow
@@ -21,7 +22,6 @@ module.exports =
   token: require('./token')
 
   activate: (state) ->
-    console.log 'Activating Commit.Live IDE'
     @checkForV1WindowsInstall()
     @registerWindowsProtocol()
     # @disableFormerPackage()
@@ -31,7 +31,6 @@ module.exports =
     # atom.config.set('tool-bar.visible', false)
 
     atom.project.commitLiveIde = activateIde: =>
-      console.log('tree connected now activating Commit.Live IDE')
       @activateIDE(state)
 
     @waitForAuth = auth()
@@ -39,11 +38,18 @@ module.exports =
       'commit-live:connect-to-project': () =>
         auth().then =>
           @studentServer = JSON.parse(localStorage.get('commit-live:user-info')).servers.student
-          if atom.project and atom.project.remoteftp
-            atom.project.remoteftp.removeConfigFiles()
-            atom.project.remoteftp.connectToStudentFTP()
+          serverStatus = JSON.parse(localStorage.get('commit-live:user-info')).serverStatus
+          if serverStatus == 2
+            startInstance().then =>
+              @studentServer = JSON.parse(localStorage.get('commit-live:user-info')).servers.student
+              if atom.project and atom.project.remoteftp
+                atom.project.remoteftp.connectToStudentFTP()
+          else
+            if atom.project and atom.project.remoteftp
+              atom.project.remoteftp.connectToStudentFTP()
 
     @projectSearch = new ProjectSearch()
+    @activateUpdater()
 
   activateIDE: (state) ->
     @isTerminalWindow = (localStorage.get('popoutTerminal') == 'true')
@@ -61,8 +67,7 @@ module.exports =
     @activateEventHandlers()
     @activateSubscriptions()
     @activateNotifier()
-    @activateUpdater()
-    @termView.sendClear()
+    # @termView.sendClear()
 
   activateTerminal: ->
     @term = new Terminal
