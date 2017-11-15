@@ -1,5 +1,5 @@
 localStorage = require './local-storage'
-{CompositeDisposable} = require 'atom'
+{CompositeDisposable, Notification} = require 'atom'
 Terminal = require './terminal'
 TerminalView = require './views/terminal'
 StatusView = require './views/status'
@@ -33,23 +33,60 @@ module.exports =
     atom.project.commitLiveIde = activateIde: =>
       @activateIDE(state)
 
-    @waitForAuth = auth()
+    @authenticateUser()
     @subscriptions.add atom.commands.add 'atom-workspace',
       'commit-live:connect-to-project': () =>
+        preReqPopup = new Notification("info", "Fetching Prerequisites...", {dismissable: true})
+        atom.notifications.addNotification(preReqPopup)
         auth().then =>
-          @studentServer = JSON.parse(localStorage.get('commit-live:user-info')).servers.student
-          serverStatus = JSON.parse(localStorage.get('commit-live:user-info')).serverStatus
-          if serverStatus == 2
-            startInstance().then =>
-              @studentServer = JSON.parse(localStorage.get('commit-live:user-info')).servers.student
+          preReqPopup.dismiss()
+          setTimeout =>
+            @studentServer = JSON.parse(localStorage.get('commit-live:user-info')).servers.student
+            serverStatus = JSON.parse(localStorage.get('commit-live:user-info')).serverStatus
+            if serverStatus == 2
+              spinUpPopup = new Notification("info", "Spining up your server...", {dismissable: true})
+              atom.notifications.addNotification(spinUpPopup)
+              startInstance().then =>
+                spinUpPopup.dismiss()
+                atom.notifications.addSuccess 'Your server is ready now!'
+                setTimeout =>
+                  @studentServer = JSON.parse(localStorage.get('commit-live:user-info')).servers.student
+                  @connectToFileTreeInFiveSeconds()
+                , 0
+            else
               if atom.project and atom.project.remoteftp
                 atom.project.remoteftp.connectToStudentFTP()
-          else
-            if atom.project and atom.project.remoteftp
-              atom.project.remoteftp.connectToStudentFTP()
+          , 0
 
     @projectSearch = new ProjectSearch()
     @activateUpdater()
+
+  connectToFileTreeInFiveSeconds: () ->
+    waitTime = 10 # seconds
+    launchPopup = null
+    intervalVar = setInterval ->
+      if launchPopup
+        launchPopup.dismiss()
+        launchPopup = null
+      if waitTime == 0
+        if atom.project and atom.project.remoteftp
+          atom.project.remoteftp.connectToStudentFTP()
+        clearInterval(intervalVar)
+        return
+      launchPopup = new Notification("info", "Connecting in #{waitTime}...", {dismissable: true})
+      atom.notifications.addNotification(launchPopup)
+      waitTime = waitTime - 1
+    , 1000
+
+  authenticateUser: () ->
+    authPopup = new Notification("info", "Commit Live IDE: Authenticating...", {dismissable: true})
+    atom.notifications.addNotification(authPopup)
+    @waitForAuth = auth().then =>
+      authPopup.dismiss()
+      setTimeout ->
+        atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live-welcome:show')
+        atom.notifications.addSuccess 'Commit Live IDE: You have successfully logged in.'
+      , 0
 
   activateIDE: (state) ->
     @isTerminalWindow = (localStorage.get('popoutTerminal') == 'true')
