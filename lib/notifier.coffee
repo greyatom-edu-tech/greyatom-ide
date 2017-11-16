@@ -7,6 +7,7 @@ path = require 'path'
 io = require 'socket.io-client'
 remote = require 'remote'
 localStorage = require './local-storage'
+{Notification} = require 'atom'
 BrowserWindow = remote.BrowserWindow
 
 module.exports =
@@ -37,46 +38,28 @@ class Notifier extends EventEmitter
             # console.log rawData
             if rawData.type == 'notify_ide'
               if rawData.message.type == 'testCasesPassed'
-                notif = new Notification rawData.title,
-                  body: 'Test cases passed successfully'
-
-                notif.onclick = ->
-                  notif.close()
+                atom.notifications.addSuccess(rawData.title, {
+                  description: 'Perfect! You have passed the test cases!',
+                  dismissable: false
+                });
 
               if rawData.message.type == 'testCasesFailed'
-                notif = new Notification rawData.title,
-                  body: 'Test cases failed'
-
-                notif.onclick = ->
-                  notif.close()
-
-              if rawData.message.type == 'completedReading'
-                notif = new Notification rawData.title,
-                  body: if rawData.message.value == 'true' then 'Reading completed successfully' else 'Reading not completed'
-
-                notif.onclick = ->
-                  notif.close()
+                atom.notifications.addError(rawData.title, {
+                  description: 'Uh-oh! You still have to pass the test cases!',
+                  dismissable: false
+                });
 
               if rawData.message.type == 'forked'
-                notif = new Notification rawData.title,
-                  body: if rawData.message.value == 'true' then  'Forked successfully' else 'Forked failed'
-
-                notif.onclick = ->
-                  notif.close()
+                atom.notifications.addSuccess(rawData.title, {
+                  description: 'Bingo! You have forked the project successfully!',
+                  dismissable: false
+                });
 
               if rawData.message.type == 'submittedPr'
-                notif = new Notification rawData.title,
-                  body: if rawData.message.value == 'true' then 'Pull request submitted successfully' else 'Pull request failed'
-
-                notif.onclick = ->
-                  notif.close()
-
-              if rawData.message.type == 'reviewed'
-                notif = new Notification rawData.title,
-                  body: if rawData.message.value == 'true' then 'Review completed successfully' else 'Review failed'
-
-                notif.onclick = ->
-                  notif.close()
+                atom.notifications.addSuccess(rawData.title, {
+                  description: 'Good work! You have submitted successfully!',
+                  dismissable: false
+                });
 
             if rawData.type == 'pop_image'
               win = new BrowserWindow(
