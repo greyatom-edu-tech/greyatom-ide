@@ -22,42 +22,18 @@ confirmOauthToken = (token,userId) ->
     else
       return false
 
-githubLogin = () ->
-  new Promise (resolve, reject) ->
-    win = new BrowserWindow(autoHideMenuBar: true, show: false, width: 440, height: 660, resizable: false)
-    webContents = win.webContents
-
-    win.setSkipTaskbar(true)
-    win.setMenuBarVisibility(false)
-    win.setTitle('Sign in to Github to get started with the Learn IDE')
-
-    # show window only if login is required
-    webContents.on 'did-finish-load', -> win.show()
-
-    # hide window immediately after login
-    webContents.on 'will-navigate', (e, url) ->
-      win.hide() if url.match("#{learnCo}/users/auth/github/callback")
-
-    webContents.on 'did-get-redirect-request', (e, oldURL, newURL) ->
-      return unless newURL.match(/ide_token/)
-      token = url.parse(newURL, true).query.ide_token
-      confirmOauthToken(token).then (res) ->
-        return unless res?
-        localStorage.set('didCompleteGithubLogin')
-        _token.set(token)
-        win.destroy()
-        resolve()
-
-    if not win.loadURL("#{learnCo}/ide/token?ide_config=true")
-      atom.notifications.warning 'Learn IDE: connectivity issue',
-        detail: "The editor is unable to connect to #{learnCo}. Are you connected to the internet?"
-        buttons: [
-          {text: 'Try again', onDidClick: -> learnSignIn()}
-        ]
-
 commitLiveSignIn = () ->
   new Promise (resolve, reject) ->
-    win = new BrowserWindow(autoHideMenuBar: true, show: false, width: 400, height: 600, resizable: false)
+    win = new BrowserWindow(
+      autoHideMenuBar: true, 
+      show: false, 
+      width: 400, 
+      height: 600, 
+      resizable: false,
+      webPreferences: {
+        partition: 'new:abc'
+      }
+    )
     {webContents} = win
 
     win.setSkipTaskbar(true)
@@ -66,19 +42,15 @@ commitLiveSignIn = () ->
 
     webContents.on 'did-finish-load', -> win.show()
 
+    webContents.on 'close', ->
+      webContents = null
+      win = null
+
     webContents.on 'new-window', (e, url) ->
       e.preventDefault()
-      # win.destroy()
-      # shell.openExternal(url)
-
-    # webContents.on 'will-navigate', (e, url) ->
-    #   if url.match(/github_sign_in/)
-    #     win.destroy()
-    #     githubLogin().then(resolve)
 
     webContents.on 'did-get-redirect-request', (e, oldURL, newURL) ->
       if newURL.match("accessToken")
-        console.log "m here "
         token = url.parse(newURL, true).query.accessToken
         userId = url.parse(newURL, true).query.userId
         if token?.length
@@ -87,22 +59,25 @@ commitLiveSignIn = () ->
             return unless res
             _token.set(token)
             _token.setID(userId)
-            if atom.project and atom.project.remoteftp
-              atom.project.remoteftp.connectToStudentFTP()
+            atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live-welcome:hide')
+            atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live-welcome:show-dashboard')
+            atom.notifications.addSuccess 'Commit Live IDE: You have successfully logged in.'
             resolve()
-      # if newURL.match(/github_sign_in/)
-      #   win.destroy()
-      #   githubLogin().then(resolve)
-    console.log "#{commitLive}/logout"
-    if not win.loadURL("#{commitLive}/logout")
+
+    if not win.loadURL(commitLive)
       win.destroy()
-      githubLogin.then(resolve)
+
+showLoginScreen = () ->
+  new Promise (resolve, reject) ->
+    reject()
 
 module.exports = ->
   existingToken = _token.get()
   existingId = _token.getID()
 
   if !existingToken
-    commitLiveSignIn()
+    showLoginScreen()
   else
     confirmOauthToken(existingToken,existingId)
+
+module.exports.loginWithGithub = commitLiveSignIn

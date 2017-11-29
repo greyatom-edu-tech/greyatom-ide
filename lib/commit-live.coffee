@@ -12,6 +12,7 @@ atomHelper = require './atom-helper'
 config = require './config'
 startInstance = require './instance'
 auth = require './auth'
+loginWithGithub = require('./auth').loginWithGithub
 remote = require 'remote'
 BrowserWindow = remote.BrowserWindow
 localStorage = require './local-storage'
@@ -34,6 +35,9 @@ module.exports =
       @activateIDE(state)
 
     @authenticateUser()
+    @subscriptions.add atom.commands.add 'atom-workspace',
+      'commit-live:login-with-github': () =>
+        loginWithGithub()
     @subscriptions.add atom.commands.add 'atom-workspace',
       'commit-live:connect-to-project': () =>
         preReqPopup = new Notification("info", "Fetching Prerequisites...", {dismissable: true})
@@ -84,9 +88,12 @@ module.exports =
     @waitForAuth = auth().then =>
       authPopup.dismiss()
       setTimeout ->
-        atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live-welcome:show')
+        atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live-welcome:show-dashboard')
         atom.notifications.addSuccess 'Commit Live IDE: You have successfully logged in.'
       , 0
+    .catch =>
+      authPopup.dismiss()
+      atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live-welcome:show-login')
 
   activateIDE: (state) ->
     @isTerminalWindow = (localStorage.get('popoutTerminal') == 'true')
