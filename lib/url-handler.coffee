@@ -14,7 +14,7 @@ openInNewWindow = ->
 
 openInExistingWindow = ->
   console.log 'm at openInExistingWindow'
-  bus.emit('learn:open', {timestamp: Date.now(), slug: getLabSlug()})
+  bus.emit('commit-live:open', {timestamp: Date.now(), slug: getLabSlug()})
 
 windowOpen = ->
   localStorage.get('lastFocusedWindow')

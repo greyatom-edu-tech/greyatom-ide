@@ -8,7 +8,7 @@ localStorage = require '../local-storage'
 module.exports =
 class TerminalView extends View
   @content: ->
-    @div class: 'panel learn-terminal', =>
+    @div class: 'panel commit-live-terminal', =>
       @div class: 'terminal-view-resize-handle'
 
   initialize: (terminal, openPath, isTerminalWindow) ->
@@ -18,7 +18,7 @@ class TerminalView extends View
     rows = if isTerminalWindow then 26 else 18
     @terminalWrapper = new TerminalWrapper(cols: 80, rows: rows, useStyle: no, screenKeys: no, scrollback: yes)
     window.term = @terminalWrapper
-    @panel = atom.workspace.addBottomPanel(item: this, visible: false, className: 'learn-terminal-view')
+    @panel = atom.workspace.addBottomPanel(item: this, visible: false, className: 'commit-live-terminal-view')
 
     @panelView = $(atom.views.getView(@panel))
     @panelView.attr('data-height', '290px')
@@ -38,7 +38,7 @@ class TerminalView extends View
     if @isTerminalWindow
       document.getElementsByClassName('terminal-view-resize-handle')[0].setAttribute('style', 'display:none;')
       document.getElementsByClassName('inset-panel')[0].setAttribute('style', 'display:none;')
-      document.getElementsByClassName('learn-terminal')[0].style.height = '448px'
+      document.getElementsByClassName('commit-live-terminal')[0].style.height = '448px'
       workspaceView = atom.views.getView(atom.workspace)
       atom.commands.dispatch(workspaceView, 'tree-view:toggle')
 

@@ -1,11 +1,5 @@
 'context-menu':
-  'atom-text-editor': [
-    {
-      'label': 'Toggle Commit Live Terminal'
-      'command': 'commit-live:toggle-terminal'
-    }
-  ]
-  '.learn-terminal': [
+  '.commit-live-terminal': [
     {
       'label': 'Copy'
       'command': 'commit-live:copy'
@@ -34,15 +28,7 @@
           'command': 'commit-live:toggle-terminal'
         }
         {
-          'label': 'Toggle Debugger'
-          'command': 'commit-live:toggle:debugger'
-        }
-        {
-          'label': 'Reconnect'
-          'command': 'commit-live:reset'
-        }
-        {
-          'label': 'Log In/Out'
+          'label': 'Log Out'
           'command': 'commit-live:log-in-out'
         }
       ]

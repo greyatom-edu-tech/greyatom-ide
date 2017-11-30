@@ -1,1 +1,1 @@
-module.exports = window.LEARN_IDE_VERSION = require('../package.json').version
+module.exports = window.COMMIT_LIVE_IDE_VERSION = require('../package.json').version

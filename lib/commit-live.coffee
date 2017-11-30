@@ -25,7 +25,6 @@ module.exports =
   activate: (state) ->
     @checkForV1WindowsInstall()
     @registerWindowsProtocol()
-    # @disableFormerPackage()
 
     @subscriptions = new CompositeDisposable
     @subscribeToLogin()
@@ -137,8 +136,8 @@ module.exports =
   activateEventHandlers: ->
     atomHelper.trackFocusedWindow()
 
-    # listen for learn:open event from other render processes (url handler)
-    bus.on 'learn:open', (lab) =>
+    # listen for commit-live:open event from other render processes (url handler)
+    bus.on 'commit-live:open', (lab) =>
       console.log "inside bus.on " , lab.slug
       @termView.openLab(lab.slug)
       atom.getCurrentWindow().focus()
@@ -228,23 +227,6 @@ module.exports =
   logout: ->
     @token.unset()
     @token.unsetID()
-
-    github = new BrowserWindow(show: true)
-    github.webContents.on 'did-finish-load', -> github.show()
-    github.loadURL('https://github.com/logout')
-    console.log "github logout done"
-
-    learn = new BrowserWindow(show: false)
-    learn.webContents.on 'did-finish-load', -> learn.destroy()
-    learn.loadURL('http://localhost:7770/logout')
-    console.log "greatom logout done"
-
-    if atom.project and atom.project.remoteftp
-      console.log "FTP disconnect called"
-      atom.project.remoteftp.disconnectStudentFtp()
-
-    atomHelper.emit('commit-live:logout')
-    atomHelper.closePaneItems()
     atom.reload()
 
   checkForV1WindowsInstall: ->
@@ -253,9 +235,3 @@ module.exports =
   registerWindowsProtocol: ->
     if process.platform == 'win32'
       require('./protocol')
-
-  disableFormerPackage: ->
-    ilePkg = atom.packages.loadPackage('integrated-learn-environment')
-
-    if ilePkg?
-      ilePkg.disable()

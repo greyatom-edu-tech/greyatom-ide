@@ -7,9 +7,9 @@ localStorage = require '../local-storage'
 module.exports =
 class StatusView extends View
   @content: ->
-    @div class: 'learn-synced-fs-status', =>
-      @div class: 'learn-status-icon inline-block icon-terminal', id: 'learn-status-icon', ' Commit Live'
-      @div class: 'learn-popout-terminal-icon inline-block icon-link-external', id: 'learn-popout-terminal-icon'
+    @div class: 'commit-live-synced-fs-status', =>
+      @div class: 'commit-live-status-icon inline-block icon-terminal', id: 'commit-live-status-icon', ' Commit Live'
+      @div class: 'commit-live-popout-terminal-icon inline-block icon-link-external', id: 'commit-live-popout-terminal-icon'
 
   constructor: (state, termSocket, @options) ->
     super
@@ -63,10 +63,10 @@ class StatusView extends View
   # ui elements
 
   statusIcon: ->
-    @element.getElementsByClassName('learn-status-icon')[0]
+    @element.getElementsByClassName('commit-live-status-icon')[0]
 
   popoutIcon: ->
-    @element.getElementsByClassName('learn-popout-terminal-icon')[0]
+    @element.getElementsByClassName('commit-live-popout-terminal-icon')[0]
 
   showPopoutIcon: ->
     @popoutIcon().classList.remove('inactive')
