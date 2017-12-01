@@ -99,6 +99,7 @@ gulp.task('inject-packages', function() {
   rmPackage('welcome')
   rmPackage('fuzzy-finder')
   rmPackage('tree-view')
+  rmPackage('background-tips')
   injectPackage(pkg.name, pkg.version)
   _.each(pkg.packageDependencies, (version, name) => {
     injectPackage(name, version)
