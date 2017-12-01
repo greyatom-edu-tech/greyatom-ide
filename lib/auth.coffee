@@ -7,6 +7,7 @@ _token = require './token'
 localStorage = require './local-storage'
 {commitLive, commitLiveApi} = require './config'
 {BrowserWindow} = require 'remote'
+{Notification} = require 'atom'
 
 confirmOauthToken = (token,userId) ->
   headers = new Headers(
@@ -22,7 +23,20 @@ confirmOauthToken = (token,userId) ->
     else
       return false
 
+notifyPopup = null
+
+hideNotify = () ->
+  if notifyPopup
+    notifyPopup.dismiss()
+
+showNotify = (text) ->
+  hideNotify()
+  if text
+    notifyPopup = new Notification("info", "Commit Live IDE: #{text}", {dismissable: true})
+    atom.notifications.addNotification(notifyPopup)
+
 commitLiveSignIn = () ->
+  showNotify("Connecting to Github...")
   new Promise (resolve, reject) ->
     win = new BrowserWindow(
       autoHideMenuBar: true, 
@@ -40,9 +54,29 @@ commitLiveSignIn = () ->
     win.setMenuBarVisibility(false)
     win.setTitle('Welcome to the Commit.Live')
 
-    webContents.on 'did-finish-load', -> win.show()
+    webContents.on 'did-finish-load', ->
+      loadedUrl = webContents.getURL()
+      if loadedUrl is "https://github.com/login/oauth/authorize"
+        showNotify("Authenticating...")
+        win.hide()
+        return
+      firstMatch = loadedUrl.startsWith('https://github.com/login?client_id=')
+      secondMatch = loadedUrl.startsWith('https://github.com/login/oauth/authorize?client_id=')
+      if firstMatch
+        hideNotify()
+        win.show()
+      webContents.findInPage('Authorize') if secondMatch
+
+    webContents.on 'found-in-page', (event, result) ->
+      if result.matches
+        hideNotify()
+        webContents.stopFindInPage('clearSelection')
+        win.focus()
+        win.show()
 
     webContents.on 'close', ->
+      atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live-welcome:enable-login-btn')
+      hideNotify()
       webContents = null
       win = null
 
@@ -50,6 +84,8 @@ commitLiveSignIn = () ->
       e.preventDefault()
 
     webContents.on 'did-get-redirect-request', (e, oldURL, newURL) ->
+      win.hide()
+      showNotify("Authenticating...") if oldURL is "https://github.com/session"
       if newURL.match("accessToken")
         token = url.parse(newURL, true).query.accessToken
         userId = url.parse(newURL, true).query.userId
@@ -59,6 +95,7 @@ commitLiveSignIn = () ->
             return unless res
             _token.set(token)
             _token.setID(userId)
+            hideNotify()
             atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live-welcome:hide')
             atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live-welcome:show-dashboard')
             atom.notifications.addSuccess 'Commit Live IDE: You have successfully logged in.'
