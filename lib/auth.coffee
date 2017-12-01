@@ -5,7 +5,6 @@ version = require './version'
 fetch = require './fetch'
 _token = require './token'
 localStorage = require './local-storage'
-{commitLive, commitLiveApi} = require './config'
 {BrowserWindow} = require 'remote'
 {Notification} = require 'atom'
 
@@ -13,7 +12,8 @@ confirmOauthToken = (token,userId) ->
   headers = new Headers(
     {'Authorization': token }
   )
-  AUTH_URL = "#{commitLiveApi}/users/#{userId}"
+  apiEndpoint = atom.config.get('greyatom-ide').apiEndpoint
+  AUTH_URL = "#{apiEndpoint}/users/#{userId}"
   fetch(AUTH_URL, {headers}).then (response) ->
     console.log 'Get User Response'
     console.log response
@@ -101,7 +101,8 @@ commitLiveSignIn = () ->
             atom.notifications.addSuccess 'Commit Live IDE: You have successfully logged in.'
             resolve()
 
-    if not win.loadURL(commitLive)
+    apiEndpoint = atom.config.get('greyatom-ide').apiEndpoint
+    if not win.loadURL("#{apiEndpoint}/github/login")
       win.destroy()
 
 showLoginScreen = () ->

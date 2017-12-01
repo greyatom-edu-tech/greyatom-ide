@@ -70,6 +70,12 @@
       "default": "#000000",
       "title": "Terminal Background Color",
       "description": "A valid CSS color value which will be used to style your terminal's background"
+    },
+    "apiEndpoint": {
+      "type": "string",
+      "default": "http://api.greyatom.com/v2",
+      "title": "Terminal Background Color",
+      "description": "A valid CSS color value which will be used to style your terminal's background"
     }
   },
   "devDependencies": {

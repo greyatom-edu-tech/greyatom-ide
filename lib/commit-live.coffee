@@ -9,7 +9,6 @@ ProjectSearch = require './project-search'
 bus = require('./event-bus')()
 Notifier = require './notifier'
 atomHelper = require './atom-helper'
-config = require './config'
 startInstance = require './instance'
 auth = require './auth'
 loginWithGithub = require('./auth').loginWithGithub
