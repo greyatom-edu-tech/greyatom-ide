@@ -56,7 +56,6 @@ class TerminalView extends View
     @terminalWrapper.element.style.color = '#666'
     @terminalWrapper.cursorHidden = true
     @terminalWrapper.write('Unable to connect to Commit Live\r')
-    atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live-welcome:show')
     @panel.hide()
     if atom.project.remoteftp
       atom.project.remoteftp.disconnectStudentFtp()
@@ -96,7 +95,6 @@ class TerminalView extends View
       @terminalWrapper.element.style.backgroundColor = @openBackgroundColor
       @terminalWrapper.cursorHidden = false
       @terminalWrapper.write('Connected to Commit Live\r')
-      atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live-welcome:hide')
       lastProject = JSON.parse(localStorage.get('commit-live:last-opened-project'))
       if lastProject
         @openLab(lastProject.id)

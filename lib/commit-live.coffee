@@ -15,6 +15,7 @@ loginWithGithub = require('./auth').loginWithGithub
 remote = require 'remote'
 BrowserWindow = remote.BrowserWindow
 localStorage = require './local-storage'
+{$} = require 'atom-space-pen-views'
 
 toolBar = null;
 
@@ -34,10 +35,14 @@ module.exports =
 
     @authenticateUser()
     @subscriptions.add atom.commands.add 'atom-workspace',
+      'commit-live:toggle-dashboard': () =>
+        @showDashboard()
+    @subscriptions.add atom.commands.add 'atom-workspace',
       'commit-live:login-with-github': () =>
         loginWithGithub()
     @subscriptions.add atom.commands.add 'atom-workspace',
       'commit-live:connect-to-project': () =>
+        atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live-welcome:hide')
         preReqPopup = new Notification("info", "Fetching Prerequisites...", {dismissable: true})
         atom.notifications.addNotification(preReqPopup)
         auth().then =>
@@ -55,13 +60,46 @@ module.exports =
                   @studentServer = JSON.parse(localStorage.get('commit-live:user-info')).servers.student
                   @connectToFileTreeInFiveSeconds()
                 , 0
+              .catch =>
+                spinUpPopup.dismiss()
+                @showSessionExpired()
+                @logout()
             else
               if atom.project and atom.project.remoteftp
-                atom.project.remoteftp.connectToStudentFTP()
+                if atom.project.remoteftp.isConnected()
+                  @showCodingScreen()
+                else
+                  atom.project.remoteftp.connectToStudentFTP()
           , 0
+        .catch =>
+          preReqPopup.dismiss()
+          @showSessionExpired()
+          @logout()
 
     @projectSearch = new ProjectSearch()
     @activateUpdater()
+
+  showDashboard: () ->
+    dashboardView = $('.commit-live-settings-view')
+    if !dashboardView.length
+      atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live-welcome:show-dashboard')
+      if atom.project.remoteftp.isConnected()
+        atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live-tree-view:toggle')
+        atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live:toggle-terminal')
+
+  showCodingScreen: () ->
+    treeView = $('.greyatom-tree-view-view')
+    terminalView = $('.commit-live-terminal-view')
+    atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live-tree-view:toggle') if !treeView.length
+    if terminalView.length && terminalView.is(':hidden')
+      atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live:toggle-terminal')
+
+  showSessionExpired: () ->
+    sessionExpiredNotify = new Notification("info", "Commit Live IDE: Please Login Again", {
+      dismissable: false,
+      description: 'Your session has expired!'
+    });
+    atom.notifications.addNotification(sessionExpiredNotify)
 
   connectToFileTreeInFiveSeconds: () ->
     waitTime = 10 # seconds
@@ -91,7 +129,7 @@ module.exports =
       , 0
     .catch =>
       authPopup.dismiss()
-      atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live-welcome:show-login')
+      @logout()
 
   activateIDE: (state) ->
     @isTerminalWindow = (localStorage.get('popoutTerminal') == 'true')
@@ -125,6 +163,7 @@ module.exports =
   activateStatusView: (state) ->
     @statusView = new StatusView state, @term, {@isTerminalWindow}
 
+    @addStatusBar(item: @statusView, priority: 5000)
     bus.on 'terminal:popin', () =>
       @statusView.onTerminalPopIn()
       @termView.showAndFocus()
@@ -214,8 +253,7 @@ module.exports =
     # })
 
   consumeStatusBar: (statusBar) ->
-    # @waitForAuth.then =>
-    #   statusBar.addRightTile(item: @statusView, priority: 5000)
+    @addStatusBar = statusBar.addRightTile
 
   logInOrOut: ->
     if @token.get()?
@@ -224,9 +262,12 @@ module.exports =
       atomHelper.resetPackage()
 
   logout: ->
+    localStorage.delete('commit-live:user-info')
+    localStorage.delete('commit-live:last-opened-project')
     @token.unset()
     @token.unsetID()
-    atom.reload()
+    atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live-welcome:hide')
+    atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live-welcome:show-login')
 
   checkForV1WindowsInstall: ->
     require('./windows')

@@ -20,12 +20,16 @@
       'label': 'Commit Live'
       'submenu': [
         {
-          'label': 'Focus Terminal'
-          'command': 'commit-live:toggle-focus'
+          'label': 'Toggle File Tree'
+          'command': 'commit-live-tree-view:toggle'
         }
         {
           'label': 'Toggle Terminal'
           'command': 'commit-live:toggle-terminal'
+        }
+        {
+          'label': 'Go to Dashboard'
+          'command': 'commit-live:toggle-dashboard'
         }
         {
           'label': 'Log Out'
