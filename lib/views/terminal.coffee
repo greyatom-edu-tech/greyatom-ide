@@ -57,8 +57,6 @@ class TerminalView extends View
     @terminalWrapper.cursorHidden = true
     @terminalWrapper.write('Unable to connect to Commit Live\r')
     @panel.hide()
-    if atom.project.remoteftp
-      atom.project.remoteftp.disconnectStudentFtp()
 
   handleEvents: ->
     @on 'focus', => @fitTerminal()

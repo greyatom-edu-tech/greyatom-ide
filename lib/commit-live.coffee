@@ -129,7 +129,7 @@ module.exports =
       , 0
     .catch =>
       authPopup.dismiss()
-      @logout()
+      atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live-welcome:show-login')
 
   activateIDE: (state) ->
     @isTerminalWindow = (localStorage.get('popoutTerminal') == 'true')
@@ -188,10 +188,10 @@ module.exports =
 
   activateSubscriptions: ->
     @subscriptions.add atom.commands.add 'atom-workspace',
-      'commit-live:open': (e) => @termView.openLab(e.detail.path)
-      'commit-live:toggle-terminal': () => @termView.toggle()
-      'commit-live:toggle-focus': => @termView.toggleFocus()
-      'commit-live:focus': => @termView.fullFocus()
+      'commit-live:open': (e) => @termView?.openLab(e.detail.path)
+      'commit-live:toggle-terminal': () => @termView?.toggle()
+      'commit-live:toggle-focus': => @termView?.toggleFocus()
+      'commit-live:focus': => @termView?.fullFocus()
       'commit-live:toggle:debugger': => @term.toggleDebugger()
       'commit-live:reset': => @term.reset()
       # 'application:update-ile': -> (new Updater).checkForUpdate()
@@ -266,8 +266,7 @@ module.exports =
     localStorage.delete('commit-live:last-opened-project')
     @token.unset()
     @token.unsetID()
-    atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live-welcome:hide')
-    atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live-welcome:show-login')
+    atom.reload()
 
   checkForV1WindowsInstall: ->
     require('./windows')
