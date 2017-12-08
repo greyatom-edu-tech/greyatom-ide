@@ -208,6 +208,7 @@ gulp.task('update-package-json', function() {
   atomPkg.productName = productName()
   atomPkg.version = greyatomPkg.version
   atomPkg.description = greyatomPkg.description
+  atomPkg.packageDependencies['autocomplete-plus'] = '2.35.4'
   fs.writeFileSync(packageJSON, JSON.stringify(atomPkg, null, '  '))
 })
 gulp.task('rename-installer', function(done) {
