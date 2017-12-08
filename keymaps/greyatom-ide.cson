@@ -20,4 +20,5 @@
 
 '.platform-win32, .platform-linux':
   'ctrl-i': 'commit-live:toggle-terminal'
+  'ctrl-;': 'commit-live:toggle-focus'
   'ctrl-o': 'commit-live:project-search'
