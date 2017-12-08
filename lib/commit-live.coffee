@@ -93,6 +93,9 @@ module.exports =
     atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live-tree-view:toggle') if !treeView.length
     if terminalView.length && terminalView.is(':hidden')
       atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live:toggle-terminal')
+    lastProject = JSON.parse(localStorage.get('commit-live:last-opened-project'))
+    if lastProject
+      @termView?.openLab(lastProject.id)
 
   showSessionExpired: () ->
     sessionExpiredNotify = new Notification("info", "Commit Live IDE: Please Login Again", {
