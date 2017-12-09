@@ -74,9 +74,9 @@
     },
     "apiEndpoint": {
       "type": "string",
-      "default": "http://api.greyatom.com/v2",
-      "title": "Terminal Background Color",
-      "description": "A valid CSS color value which will be used to style your terminal's background"
+      "default": "https://api2.commit.live/v2",
+      "title": "Commit Live Endpoint",
+      "description": "Endpoint for the IDE to use for User Authentication"
     }
   },
   "devDependencies": {
