@@ -24,7 +24,6 @@ module.exports =
 
   activate: (state) ->
     @checkForV1WindowsInstall()
-    @registerWindowsProtocol()
 
     @subscriptions = new CompositeDisposable
     @subscribeToLogin()
@@ -273,7 +272,3 @@ module.exports =
 
   checkForV1WindowsInstall: ->
     require('./windows')
-
-  registerWindowsProtocol: ->
-    if process.platform == 'win32'
-      require('./protocol')
