@@ -46,10 +46,10 @@
     "utf8": "2.1.1"
   },
   "packageDependencies": {
-    "greyatom-tree-view": "1.3.12",
+    "greyatom-tree-view": "1.3.13",
     "tablr": "1.8.3",
     "tool-bar": "1.1.0",
-    "greyatom-ide-welcome": "0.0.6",
+    "greyatom-ide-welcome": "0.0.7",
     "greyatom-ide-background-tips": "0.0.3"
   },
   "configSchema": {
