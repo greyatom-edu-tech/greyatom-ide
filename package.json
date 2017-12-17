@@ -79,6 +79,7 @@
     }
   },
   "devDependencies": {
+    "appdmg": "^0.5.2",
     "decompress": "4.0.0",
     "del": "2.2.2",
     "gulp": "3.9.1",

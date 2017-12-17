@@ -11,6 +11,7 @@ const decompress = require('decompress');
 const request = require('request');
 const del = require('del');
 const runSequence = require('run-sequence');
+const appdmg = require('appdmg');
 const cp = require('./utils/child-process-wrapper');
 const pkg = require('./package.json')
 var buildBeta;
@@ -243,7 +244,30 @@ gulp.task('cleanup', function(done) {
       runSequence('rename-installer', 'sign-installer', done)
       break;
     case 'darwin':
-      done()
+      console.log('Creating CommitLive.dmg file...');
+      var appPath = path.join(buildDir, 'out', productName() + '.app');
+      var icnsPath = path.join('resources', 'icns-for-dmg', 'atom.icns');
+      var dmgPath = path.join(buildDir, 'out', productName() + '.dmg');
+      var convertAppToDmg = appdmg({
+        basepath: __dirname,
+        specification: {
+          "title": productName(),
+          "icon": icnsPath,
+          "contents": [
+            { "x": 448, "y": 344, "type": "link", "path": "/Applications" },
+            { "x": 192, "y": 344, "type": "file", "path": appPath }
+          ]
+        },
+        target: dmgPath
+      });
+      convertAppToDmg.on('finish', function () {
+        console.log('CommitLive.dmg created');
+        done()
+      });
+      convertAppToDmg.on('error', function (err) {
+        console.log('Failed to create DMG file', err);
+        done()
+      });
       break;
     case 'linux':
       done()
