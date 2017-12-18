@@ -11,7 +11,6 @@ const decompress = require('decompress');
 const request = require('request');
 const del = require('del');
 const runSequence = require('run-sequence');
-const appdmg = require('appdmg');
 const cp = require('./utils/child-process-wrapper');
 const pkg = require('./package.json')
 var buildBeta;
@@ -245,6 +244,7 @@ gulp.task('cleanup', function(done) {
       break;
     case 'darwin':
       console.log('Creating CommitLive.dmg file...');
+      const appdmg = require('appdmg');
       var appPath = path.join(buildDir, 'out', productName() + '.app');
       var icnsPath = path.join('resources', 'icns-for-dmg', 'atom.icns');
       var dmgPath = path.join(buildDir, 'out', productName() + '.dmg');

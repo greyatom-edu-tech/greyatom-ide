@@ -79,7 +79,6 @@
     }
   },
   "devDependencies": {
-    "appdmg": "^0.5.2",
     "decompress": "4.0.0",
     "del": "2.2.2",
     "gulp": "3.9.1",
@@ -88,5 +87,8 @@
     "run-sequence": "1.2.2",
     "shelljs": "0.7.3",
     "ssh2": "0.5.0"
+  },
+  "optionalDependencies": {
+    "appdmg": "^0.5.2"
   }
 }
