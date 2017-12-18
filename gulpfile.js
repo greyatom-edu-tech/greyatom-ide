@@ -101,7 +101,6 @@ gulp.task('inject-packages', function() {
   rmPackage('fuzzy-finder')
   rmPackage('tree-view')
   rmPackage('background-tips')
-  rmPackage('settings-view')
   injectPackage(pkg.name, pkg.version)
   _.each(pkg.packageDependencies, (version, name) => {
     injectPackage(name, version)
@@ -211,6 +210,7 @@ gulp.task('update-package-json', function() {
   atomPkg.version = greyatomPkg.version
   atomPkg.description = greyatomPkg.description
   atomPkg.packageDependencies['autocomplete-plus'] = '2.35.5'
+  atomPkg.packageDependencies['settings-view'] = '0.247.0'
   fs.writeFileSync(packageJSON, JSON.stringify(atomPkg, null, '  '))
 })
 gulp.task('rename-installer', function(done) {
