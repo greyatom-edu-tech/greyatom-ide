@@ -109,7 +109,7 @@ class TerminalView extends View
       'commit-live:reset-font-size': => @resetFontSize()
 
   sendClear: ->
-    console.log 'm at sendClear'
+    # console.log 'm at sendClear'
     if !@isOpenLabActive
       @terminal.send('clear \r')
 
@@ -120,9 +120,13 @@ class TerminalView extends View
     if path
       @isOpenLabActive = true
       setTimeout (=>
-        @terminal.send('clive open ' + path.toString() + '\r')
+        @terminal.send('clear \rclive open ' + path.toString() + '\r')
       ), 2000
       @openPath = null
+
+  executeCommand: (command)->
+    # console.log command
+    @terminal.send(command + '\r')
 
   onBlur: (e) ->
     {relatedTarget} = e
