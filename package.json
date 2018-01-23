@@ -1,19 +1,19 @@
 {
-  "name": "dev-greyatom-ide",
-  "version": "2.0.12",
+  "name": "greyatom-ide",
+  "version": "4.4.20",
   "atomVersion": "1.14.2",
   "treeVersion": "1.2.10",
   "languagerVersion": "0.4.1",
   "hydrogenVersion": "1.9.0",
   "main": "./lib/commit-live",
   "urlMain": "./lib/url-handler",
-  "description": "Dev version of Commit.Live IDE",
+  "description": "An integrated development environment for use with greyatom.com",
   "scripts": {
     "start": "./node_modules/gulp/bin/gulp.js"
   },
   "keywords": [],
-  "repository": "https://github.com/commit-live-admin/dev-greyatom-ide",
-  "pkgRepository": "https://github.com/commit-live-admin/dev-greyatom-ide/",
+  "repository": "https://github.com/greyatom-edu-tech/greyatom-ide/",
+  "pkgRepository": "https://github.com/greyatom-edu-tech/greyatom-ide/",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
@@ -68,7 +68,7 @@
     },
     "apiEndpoint": {
       "type": "string",
-      "default": "http://api.greyatom.com/v2",
+      "default": "https://api2.commit.live/v2",
       "title": "Commit Live Endpoint",
       "description": "Endpoint for the IDE to use for User Authentication"
     }

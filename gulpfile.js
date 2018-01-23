@@ -17,7 +17,7 @@ var buildBeta;
 var buildDir = path.join(__dirname, 'build')
 console.log('build directory', buildDir)
 function productName() {
-  var name = 'Commit Live Dev';
+  var name = 'Commit Live';
   if (buildBeta) {
     name += ' Beta';
   }
