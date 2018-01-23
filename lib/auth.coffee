@@ -7,12 +7,13 @@ _token = require './token'
 localStorage = require './local-storage'
 {BrowserWindow} = require 'remote'
 {Notification} = require 'atom'
+{name} = require '../package.json'
 
 confirmOauthToken = (token,userId) ->
   headers = new Headers(
     {'Authorization': token }
   )
-  apiEndpoint = atom.config.get('greyatom-ide').apiEndpoint
+  apiEndpoint = atom.config.get(name).apiEndpoint
   AUTH_URL = "#{apiEndpoint}/users/#{userId}"
   fetch(AUTH_URL, {headers}).then (response) ->
     console.log 'Get User Response'
@@ -101,7 +102,7 @@ commitLiveSignIn = () ->
             atom.notifications.addSuccess 'Commit Live IDE: You have successfully logged in.'
             resolve()
 
-    apiEndpoint = atom.config.get('greyatom-ide').apiEndpoint
+    apiEndpoint = atom.config.get(name).apiEndpoint
     if not win.loadURL("#{apiEndpoint}/github/login")
       win.destroy()
 

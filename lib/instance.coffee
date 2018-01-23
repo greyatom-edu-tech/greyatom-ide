@@ -1,12 +1,13 @@
 fetch = require './fetch'
 _token = require './token'
 localStorage = require './local-storage'
+{name} = require '../package.json'
 
 callStart = (token, instanceId) ->
   headers = new Headers(
     {'Authorization': token }
   )
-  apiEndpoint = atom.config.get('greyatom-ide').apiEndpoint
+  apiEndpoint = atom.config.get(name).apiEndpoint
   AUTH_URL = "#{apiEndpoint}/aws/toggleServer/#{instanceId}?action=start"
   fetch(AUTH_URL, {method:'PUT',headers}).then (response) ->
     console.log 'Start Instance Response'

@@ -16,6 +16,7 @@ remote = require 'remote'
 BrowserWindow = remote.BrowserWindow
 localStorage = require './local-storage'
 {$} = require 'atom-space-pen-views'
+{name} = require '../package.json'
 
 toolBar = null;
 
@@ -34,6 +35,15 @@ module.exports =
 
     @authenticateUser()
     @subscriptions.add atom.commands.add 'atom-workspace',
+      'commit-live:test-task': () =>
+        @testTask()
+    @subscriptions.add atom.commands.add 'atom-workspace',
+      'commit-live:submit-task': () =>
+        @submitTask()
+    @subscriptions.add atom.commands.add 'atom-workspace',
+      'commit-live:execute-task': () =>
+        @executeTask()
+    @subscriptions.add atom.commands.add 'atom-workspace',
       'commit-live:toggle-dashboard': () =>
         @showDashboard()
     @subscriptions.add atom.commands.add 'atom-workspace',
@@ -42,6 +52,8 @@ module.exports =
     @subscriptions.add atom.commands.add 'atom-workspace',
       'commit-live:connect-to-project': () =>
         atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live-welcome:hide')
+        atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live:change-project-title')
+        atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live:refill-tasks')
         preReqPopup = new Notification("info", "Fetching Prerequisites...", {dismissable: true})
         atom.notifications.addNotification(preReqPopup)
         auth().then =>
@@ -57,7 +69,7 @@ module.exports =
                 atom.notifications.addSuccess 'Your server is ready now!'
                 setTimeout =>
                   @studentServer = JSON.parse(localStorage.get('commit-live:user-info')).servers.student
-                  @connectToFileTreeInFiveSeconds()
+                  @waitAndConnectToServer()
                 , 0
               .catch =>
                 spinUpPopup.dismiss()
@@ -83,15 +95,12 @@ module.exports =
     if !dashboardView.length
       atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live-welcome:show-dashboard')
       if atom.project.remoteftp.isConnected()
-        atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live-tree-view:toggle')
-        atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live:toggle-terminal')
+        atom.project['remoteftp-main'].treeView.detach()
+        @termView.panel.hide()
 
   showCodingScreen: () ->
-    treeView = $('.greyatom-tree-view-view')
-    terminalView = $('.commit-live-terminal-view')
-    atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live-tree-view:toggle') if !treeView.length
-    if terminalView.length && terminalView.is(':hidden')
-      atom.commands.dispatch(atom.views.getView(atom.workspace), 'commit-live:toggle-terminal')
+    atom.project['remoteftp-main'].treeView.attach()
+    @termView.panel.show()
     lastProject = JSON.parse(localStorage.get('commit-live:last-opened-project'))
     if lastProject
       @termView?.openLab(lastProject.id)
@@ -103,22 +112,16 @@ module.exports =
     });
     atom.notifications.addNotification(sessionExpiredNotify)
 
-  connectToFileTreeInFiveSeconds: () ->
+  waitAndConnectToServer: () ->
     waitTime = 10 # seconds
     launchPopup = null
-    intervalVar = setInterval ->
-      if launchPopup
-        launchPopup.dismiss()
-        launchPopup = null
-      if waitTime == 0
-        if atom.project and atom.project.remoteftp
-          atom.project.remoteftp.connectToStudentFTP()
-        clearInterval(intervalVar)
-        return
-      launchPopup = new Notification("info", "Connecting in #{waitTime}...", {dismissable: true})
-      atom.notifications.addNotification(launchPopup)
-      waitTime = waitTime - 1
-    , 1000
+    launchPopup = new Notification("info", "Launching our services...", {dismissable: true})
+    atom.notifications.addNotification(launchPopup)
+    setTimeout ->
+      launchPopup.dismiss()
+      if atom.project and atom.project.remoteftp
+        atom.project.remoteftp.connectToStudentFTP()
+    , 1000 * waitTime
 
   authenticateUser: () ->
     authPopup = new Notification("info", "Commit Live IDE: Authenticating...", {dismissable: true})
@@ -198,7 +201,7 @@ module.exports =
       'commit-live:reset': => @term.reset()
       # 'application:update-ile': -> (new Updater).checkForUpdate()
 
-    atom.config.onDidChange 'greyatom-ide.notifier', ({newValue}) =>
+    atom.config.onDidChange "#{name}.notifier", ({newValue}) =>
       if newValue then @activateNotifier() else @notifier.deactivate()
 
     openPath = localStorage.get('commitLiveOpenLabOnActivation')
@@ -207,7 +210,7 @@ module.exports =
       @termView.openLab(openPath)
 
   activateNotifier: ->
-    if atom.config.get('greyatom-ide.notifier')
+    if atom.config.get("#{name}.notifier")
       @notifier = new Notifier(@token.get())
       @notifier.activate()
 
@@ -222,9 +225,6 @@ module.exports =
     @statusView = null
     @subscriptions.dispose()
     @projectSearch.destroy()
-    # if toolBar
-    #   toolBar.removeItems();
-    #   toolBar = null;
 
   subscribeToLogin: ->
     @subscriptions.add atom.commands.add 'atom-workspace',
@@ -233,26 +233,32 @@ module.exports =
   cleanup: ->
     atomHelper.cleanup()
 
-  consumeToolBar: (getToolBar) ->
-    # toolBar = getToolBar('greyatom-ide');
-    # toolBar.addButton({
-    #   icon: 'play',
-    #   callback: 'application:about',
-    #   tooltip: 'Test',
-    #   iconset: 'fa'
-    # })
-    # toolBar.addButton({
-    #   icon: 'eject',
-    #   callback: 'application:about',
-    #   tooltip: 'Submit',
-    #   iconset: 'fa'
-    # })
-    # toolBar.addButton({
-    #   icon: 'exchange',
-    #   callback: 'commit-live:get-all-projects',
-    #   tooltip: 'Switch Project',
-    #   iconset: 'fa'
-    # })
+  testTask: ->
+    @termView.showAndFocus()
+    blob = localStorage.get('commit-live:current-track')
+    if blob
+      {titleSlug, titleSlugTestCase} = JSON.parse(blob)
+      path = atom.project.remoteftp.getPathForTrack(titleSlug)
+      command = "cd #{path} \r clear \rclive test #{titleSlugTestCase}"
+      @termView.executeCommand(command)
+
+  submitTask: ->
+    @termView.showAndFocus()
+    blob = localStorage.get('commit-live:current-track')
+    if blob
+      {titleSlug, titleSlugTestCase} = JSON.parse(blob)
+      path = atom.project.remoteftp.getPathForTrack(titleSlug)
+      command = "cd #{path} \r clear \rclive submit #{titleSlugTestCase}"
+      @termView.executeCommand(command)
+
+  executeTask: ->
+    @termView.showAndFocus()
+    blob = localStorage.get('commit-live:current-track')
+    if blob
+      {titleSlug, testCase} = JSON.parse(blob)
+      path = atom.project.remoteftp.getPathForTrack(titleSlug)
+      command = "cd #{path} \r clear \rpython #{testCase}/build.py"
+      @termView.executeCommand(command)
 
   consumeStatusBar: (statusBar) ->
     @addStatusBar = statusBar.addRightTile
@@ -268,7 +274,7 @@ module.exports =
     localStorage.delete('commit-live:last-opened-project')
     @token.unset()
     @token.unsetID()
-    atom.reload()
+    atom.restartApplication()
 
   checkForV1WindowsInstall: ->
     require('./windows')
